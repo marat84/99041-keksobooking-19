@@ -80,6 +80,9 @@ var generateData = function (count) {
   var resultArray = [];
 
   for (var i = 0; i < count; i++) {
+    var xAxis = getRandomNumber(PIN_WIDTH, (MAP_WIDTH - PIN_WIDTH));
+    var yAxis = getRandomNumber(130, 630);
+
     resultArray.push(
         {
           'author': {
@@ -87,8 +90,8 @@ var generateData = function (count) {
           },
           'offer': {
             'title': OFFER_TITLE_DATA[i],
-            'address': STUDIO_ADDRESS[i],
-            'price': STUDIO_PRICES[i],
+            'address': (xAxis + ', ' + yAxis),
+            'price': getRandomNumber(1000, 9000),
             'type': getRandomValue(STUDIO_TYPES),
             'rooms': getRandomNumber(1, 6),
             'guests': getRandomNumber(1, 8),
@@ -99,8 +102,8 @@ var generateData = function (count) {
             'photos': getRandomValue(STUDIO_PHOTOS)
           },
           'location': {
-            'x': getRandomValue(PIN_X_AXIS),
-            'y': getRandomValue(PIN_Y_AXIS)
+            'x': xAxis,
+            'y': yAxis
           }
         }
     );
