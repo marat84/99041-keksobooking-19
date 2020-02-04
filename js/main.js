@@ -116,18 +116,18 @@ var createPinElement = function (pin) {
   return clonePin;
 };
 
-var appendPinInToFragment = function (pins) {
+var mapWithPins = document.querySelector('.map__pins');
+
+var renderPins = function (pins) {
   var fragmentPin = document.createDocumentFragment();
 
   for (var i = 0; i < pins.length; i++) {
     fragmentPin.appendChild(createPinElement(pins[i]));
   }
 
-  return fragmentPin;
+  mapWithPins.appendChild(fragmentPin);
 };
 
-var mapWithPins = document.querySelector('.map__pins');
-
-mapWithPins.appendChild(appendPinInToFragment(offerData));
+renderPins(offerData);
 
 document.querySelector('.map').classList.remove('map--faded');
