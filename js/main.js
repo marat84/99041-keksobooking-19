@@ -4,16 +4,6 @@ var PIN_HEIGHT = 70;
 var PIN_WIDTH = 50;
 var MAP_WIDTH = 1200;
 
-var AUTHOR_AVATAR_DATA = [
-  'img/avatars/user01.png',
-  'img/avatars/user02.png',
-  'img/avatars/user03.png',
-  'img/avatars/user04.png',
-  'img/avatars/user05.png',
-  'img/avatars/user06.png',
-  'img/avatars/user07.png',
-  'img/avatars/user08.png'
-];
 var OFFER_TITLE_DATA = [
   'Аренда шикарной 2х комнатной квартиры',
   'Квартира в восхитительной новостройке',
@@ -84,7 +74,7 @@ var generateData = function (count) {
     resultArray.push(
         {
           'author': {
-            'avatar': AUTHOR_AVATAR_DATA[i]
+            'avatar': 'img/avatars/user0' + (i + 1) + '.png',
           },
           'offer': {
             'title': OFFER_TITLE_DATA[i],
