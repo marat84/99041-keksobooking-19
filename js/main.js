@@ -2,6 +2,7 @@
 
 var PIN_HEIGHT = 70;
 var PIN_WIDTH = 50;
+var MAP_WIDTH = 1200;
 
 var AUTHOR_AVATAR_DATA = [
   'img/avatars/user01.png',
@@ -23,51 +24,11 @@ var OFFER_TITLE_DATA = [
   'Сдаётся одна комнатная квартира',
   'Сдаётся квартира в центре'
 ];
-var STUDIO_ADDRESS = [
-  '600, 350',
-  '500, 250',
-  '550, 150',
-  '400, 300',
-  '520, 310',
-  '300, 120',
-  '440, 230',
-  '450, 100'
-];
-var STUDIO_PRICES = [
-  5000,
-  3000,
-  4999,
-  8000,
-  9000,
-  1644,
-  1888,
-  9000
-];
 var STUDIO_TYPES = [
   'palace',
   'flat',
   'house',
   'bungalo'
-];
-var STUDIO_ROOMS = [
-  3,
-  2,
-  1,
-  2,
-  2,
-  1,
-  1,
-  2
-];
-var STUDIO_GUESTS = [
-  1,
-  2,
-  3,
-  4,
-  5,
-  6,
-  7,
-  8
 ];
 var TIMES_CHECKIN = [
   '12:00',
@@ -102,32 +63,17 @@ var STUDIO_PHOTOS = [
   ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg'],
   ['http://o0.github.io/assets/images/tokyo/hotel3.jpg']
 ];
-var PIN_X_AXIS = [
-  800,
-  600,
-  400,
-  548,
-  971,
-  151,
-  1054,
-  687,
-  798
-];
-var PIN_Y_AXIS = [
-  130,
-  600,
-  158,
-  348,
-  271,
-  451,
-  554,
-  217,
-  608,
-  388
-];
 
 var getRandomValue = function (values) {
   return values[Math.floor(Math.random() * values.length)];
+};
+
+var getRandomNumber = function (min, max) {
+  return Math.round(Math.random() * (max - min)) + min;
+};
+
+var getRandomSlicedArray = function (array) {
+  return array.slice(0, getRandomNumber(1, array.length));
 };
 
 var generateData = function (count) {
@@ -144,8 +90,8 @@ var generateData = function (count) {
             'address': STUDIO_ADDRESS[i],
             'price': STUDIO_PRICES[i],
             'type': getRandomValue(STUDIO_TYPES),
-            'rooms': STUDIO_ROOMS[i],
-            'guests': STUDIO_GUESTS[i],
+            'rooms': getRandomNumber(1, 6),
+            'guests': getRandomNumber(1, 8),
             'checkin': getRandomValue(TIMES_CHECKIN),
             'checkout': getRandomValue(TIMES_CHECKOUT),
             'features': getRandomValue(STUDIO_FEATURES),
