@@ -57,11 +57,9 @@ var OFFER_DESCRIPTION = [
   'Тихий спокойный район. Только для семьи',
 ];
 var STUDIO_PHOTOS = [
-  ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'],
-  ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'],
-  ['http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'],
-  ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg'],
-  ['http://o0.github.io/assets/images/tokyo/hotel3.jpg']
+  'http://o0.github.io/assets/images/tokyo/hotel1.jpg',
+  'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
+  'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
 ];
 
 var getRandomValue = function (values) {
@@ -99,7 +97,7 @@ var generateData = function (count) {
             'checkout': getRandomValue(TIMES_CHECKOUT),
             'features': getRandomValue(STUDIO_FEATURES),
             'description': OFFER_DESCRIPTION[i],
-            'photos': getRandomValue(STUDIO_PHOTOS)
+            'photos': getRandomSlicedArray(STUDIO_PHOTOS)
           },
           'location': {
             'x': xAxis,
