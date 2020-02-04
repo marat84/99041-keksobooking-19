@@ -104,7 +104,7 @@ var offerData = generateData(8);
 
 var templatePin = document.querySelector('#pin').content.querySelector('.map__pin');
 
-var setPin = function (pin) {
+var createPinElement = function (pin) {
   var clonePin = templatePin.cloneNode(true);
 
   clonePin.style.top = pin.location.y - PIN_HEIGHT + 'px';
@@ -120,7 +120,7 @@ var appendPinInToFragment = function (pins) {
   var fragmentPin = document.createDocumentFragment();
 
   for (var i = 0; i < pins.length; i++) {
-    fragmentPin.appendChild(setPin(pins[i]));
+    fragmentPin.appendChild(createPinElement(pins[i]));
   }
 
   return fragmentPin;
