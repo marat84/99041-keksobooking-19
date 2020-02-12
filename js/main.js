@@ -31,10 +31,12 @@ var TIMES_CHECKOUT = [
   '14:00'
 ];
 var STUDIO_FEATURES = [
-  ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'],
-  ['dishwasher', 'parking', 'washer', 'elevator', 'conditioner'],
-  ['dishwasher', 'parking', 'washer', 'conditioner'],
-  ['wifi', 'dishwasher', 'washer', 'conditioner']
+  'wifi',
+  'dishwasher',
+  'parking',
+  'washer',
+  'elevator',
+  'conditioner'
 ];
 var OFFER_DESCRIPTION = [
   'Квартира для Вашей семьи. Мы приглашаем вас окунуться в сказочный мир в прямом смысле этого слова. Эта не проста квартира, только здесь вы поймете, как выглядит просторная квартира толка в этой квартиры вы оцените настоящий домашний комфорт и уют. Именно эту квартиру очень легко влюбиться и невозможно разлюбить агентства недвижимости которую вы щас позвоните более 20 лет на рынке. Эксперты работают лучшей базой элитных квартир по центру города Токио. С нами вы найдете квартиру надежно, легко и быстро',
@@ -85,7 +87,7 @@ var generateData = function (count) {
             'guests': getRandomNumber(1, 8),
             'checkin': getRandomValue(TIMES_CHECKIN),
             'checkout': getRandomValue(TIMES_CHECKOUT),
-            'features': getRandomValue(STUDIO_FEATURES),
+            'features': getRandomSlicedArray(STUDIO_FEATURES),
             'description': OFFER_DESCRIPTION[i],
             'photos': getRandomSlicedArray(STUDIO_PHOTOS)
           },
