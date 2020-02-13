@@ -133,3 +133,80 @@ var renderPins = function (pins) {
 renderPins(offerData);
 
 document.querySelector('.map').classList.remove('map--faded');
+
+var cardTemplate = document.querySelector('#card').content.querySelector('.popup');
+var cardClone = cardTemplate.cloneNode(true);
+var offerType;
+
+switch (offerData[0].offer.type) {
+  case 'flat':
+    offerType = 'Квартира';
+    break;
+  case 'bungalo':
+    offerType = 'Бунгало';
+    break;
+  case 'house':
+    offerType = 'Дом';
+    break;
+  case 'palace':
+    offerType = 'Дворец';
+    break;
+  default:
+    offerType = 'Под открытым небом';
+}
+
+// * Реализация с перерисовкой DOM'a была закоментирована т.к. посчитал
+// что прятать элементы более производительно и по ТЗ правильнее вроде как
+
+// var renderFeatures = function (features) {
+//   var fragment = document.createDocumentFragment();
+//
+//   for (var i = 0; i < features.length; i++) {
+//     var creatList = document.createElement('li');
+//     creatList.classList.add('popup__feature');
+//     creatList.classList.add('popup__feature--' + features[i]);
+//
+//     fragment.appendChild(creatList);
+//   }
+//
+//   return fragment;
+// };
+
+// cardClone.querySelector('.popup__features').innerHTML = '';
+// cardClone.querySelector('.popup__features').appendChild(renderFeatures(offerData[0].offer.features));
+
+var renderPhotos = function (photos) {
+  var fragment = document.createDocumentFragment();
+
+  for (var i = 0; i < photos.length; i++) {
+    var cloneImage = cardTemplate.querySelector('.popup__photo').cloneNode();
+    cloneImage.src = photos[i];
+
+    fragment.appendChild(cloneImage);
+  }
+
+  return fragment;
+};
+
+cardClone.querySelector('.popup__title').textContent = offerData[0].offer.title;
+cardClone.querySelector('.popup__text--address').textContent = offerData[0].offer.address;
+cardClone.querySelector('.popup__text--price').textContent = offerData[0].offer.price + '₽/ночь';
+cardClone.querySelector('.popup__type').textContent = offerType;
+cardClone.querySelector('.popup__text--capacity').textContent = offerData[0].offer.rooms + ' комнаты для ' + offerData[0].offer.guests + ' гостей';
+cardClone.querySelector('.popup__text--time').textContent = 'Заезд после ' + offerData[0].offer.checkin + ', выезд до ' + offerData[0].offer.checkout;
+
+var popupFeatures = cardClone.querySelectorAll('.popup__feature');
+for (var k = 0; k < popupFeatures.length; k++) {
+  if (!popupFeatures[k].classList.contains('popup__feature--' + offerData[0].offer.features[k])) {
+    popupFeatures[k].style.display = 'none';
+  }
+}
+
+cardClone.querySelector('.popup__description').textContent = offerData[0].offer.description;
+
+cardClone.querySelector('.popup__photos').innerHTML = '';
+cardClone.querySelector('.popup__photos').appendChild(renderPhotos(offerData[0].offer.photos));
+
+cardClone.querySelector('.popup__avatar').src = offerData[0].author.avatar;
+
+document.querySelector('.map__filters-container').insertAdjacentElement('beforebegin', cardClone);
