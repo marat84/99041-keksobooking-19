@@ -152,25 +152,19 @@ var getOfferType = function (type) {
   }
 };
 
-// * Реализация с перерисовкой DOM'a была закоментирована т.к. посчитал
-// что прятать элементы более производительно и по ТЗ правильнее вроде как
+var renderFeatures = function (features) {
+  var fragment = document.createDocumentFragment();
 
-// var renderFeatures = function (features) {
-//   var fragment = document.createDocumentFragment();
-//
-//   for (var i = 0; i < features.length; i++) {
-//     var creatList = document.createElement('li');
-//     creatList.classList.add('popup__feature');
-//     creatList.classList.add('popup__feature--' + features[i]);
-//
-//     fragment.appendChild(creatList);
-//   }
-//
-//   return fragment;
-// };
+  for (var i = 0; i < features.length; i++) {
+    var creatList = document.createElement('li');
+    creatList.classList.add('popup__feature');
+    creatList.classList.add('popup__feature--' + features[i]);
 
-// cardClone.querySelector('.popup__features').innerHTML = '';
-// cardClone.querySelector('.popup__features').appendChild(renderFeatures(offerData[0].offer.features));
+    fragment.appendChild(creatList);
+  }
+
+  return fragment;
+};
 
 var renderPhotos = function (photos) {
   var fragment = document.createDocumentFragment();
@@ -192,12 +186,8 @@ cardClone.querySelector('.popup__type').textContent = getOfferType(offerData[0].
 cardClone.querySelector('.popup__text--capacity').textContent = offerData[0].offer.rooms + ' комнаты для ' + offerData[0].offer.guests + ' гостей';
 cardClone.querySelector('.popup__text--time').textContent = 'Заезд после ' + offerData[0].offer.checkin + ', выезд до ' + offerData[0].offer.checkout;
 
-var popupFeatures = cardClone.querySelectorAll('.popup__feature');
-for (var k = 0; k < popupFeatures.length; k++) {
-  if (!popupFeatures[k].classList.contains('popup__feature--' + offerData[0].offer.features[k])) {
-    popupFeatures[k].style.display = 'none';
-  }
-}
+cardClone.querySelector('.popup__features').innerHTML = '';
+cardClone.querySelector('.popup__features').appendChild(renderFeatures(offerData[0].offer.features));
 
 cardClone.querySelector('.popup__description').textContent = offerData[0].offer.description;
 
