@@ -136,24 +136,21 @@ document.querySelector('.map').classList.remove('map--faded');
 
 var cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 var cardClone = cardTemplate.cloneNode(true);
-var offerType;
 
-switch (offerData[0].offer.type) {
-  case 'flat':
-    offerType = 'Квартира';
-    break;
-  case 'bungalo':
-    offerType = 'Бунгало';
-    break;
-  case 'house':
-    offerType = 'Дом';
-    break;
-  case 'palace':
-    offerType = 'Дворец';
-    break;
-  default:
-    offerType = 'Под открытым небом';
-}
+var getOfferType = function (type) {
+  switch (type) {
+    case 'flat':
+      return 'Квартира';
+    case 'bungalo':
+      return 'Бунгало';
+    case 'house':
+      return 'Дом';
+    case 'palace':
+      return 'Дворец';
+    default:
+      return 'Под открытым небом';
+  }
+};
 
 // * Реализация с перерисовкой DOM'a была закоментирована т.к. посчитал
 // что прятать элементы более производительно и по ТЗ правильнее вроде как
@@ -191,7 +188,7 @@ var renderPhotos = function (photos) {
 cardClone.querySelector('.popup__title').textContent = offerData[0].offer.title;
 cardClone.querySelector('.popup__text--address').textContent = offerData[0].offer.address;
 cardClone.querySelector('.popup__text--price').textContent = offerData[0].offer.price + '₽/ночь';
-cardClone.querySelector('.popup__type').textContent = offerType;
+cardClone.querySelector('.popup__type').textContent = getOfferType(offerData[0].offer.type);
 cardClone.querySelector('.popup__text--capacity').textContent = offerData[0].offer.rooms + ' комнаты для ' + offerData[0].offer.guests + ' гостей';
 cardClone.querySelector('.popup__text--time').textContent = 'Заезд после ' + offerData[0].offer.checkin + ', выезд до ' + offerData[0].offer.checkout;
 
