@@ -1,7 +1,12 @@
 'use strict';
 
-var PIN_HEIGHT = 70;
-var PIN_WIDTH = 50;
+var ENTER_KEY = 'Enter';
+var MOUSE_KEY = 0;
+var MAIN_PIN_TAIL_HEIGHT = 22;
+var MAIN_PIN_WIDTH = 62;
+var MAIN_PIN_HEIGHT = 62;
+var SMALL_PIN_HEIGHT = 70;
+var SMALL_PIN_WIDTH = 50;
 var MAP_WIDTH = 1200;
 
 var OFFER_TITLE_DATA = [
@@ -70,7 +75,7 @@ var generateData = function (count) {
   var resultArray = [];
 
   for (var i = 0; i < count; i++) {
-    var xAxis = getRandomNumber(PIN_WIDTH, (MAP_WIDTH - PIN_WIDTH));
+    var xAxis = getRandomNumber(SMALL_PIN_WIDTH, (MAP_WIDTH - SMALL_PIN_WIDTH));
     var yAxis = getRandomNumber(130, 630);
 
     resultArray.push(
@@ -109,8 +114,8 @@ var templatePin = document.querySelector('#pin').content.querySelector('.map__pi
 var createPinElement = function (pin) {
   var clonePin = templatePin.cloneNode(true);
 
-  clonePin.style.top = pin.location.y - PIN_HEIGHT + 'px';
-  clonePin.style.left = pin.location.x - (PIN_WIDTH / 2) + 'px';
+  clonePin.style.top = pin.location.y - SMALL_PIN_HEIGHT + 'px';
+  clonePin.style.left = pin.location.x - (SMALL_PIN_WIDTH / 2) + 'px';
 
   clonePin.querySelector('img').src = pin.author.avatar;
   clonePin.querySelector('img').alt = pin.offer.title;
@@ -129,10 +134,6 @@ var renderPins = function (pins) {
 
   mapWithPins.appendChild(fragmentPin);
 };
-
-renderPins(offerData);
-
-document.querySelector('.map').classList.remove('map--faded');
 
 var cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 var elementBeforePlacedCard = document.querySelector('.map__filters-container');
@@ -211,4 +212,75 @@ var renderCard = function (cards) {
   elementBeforePlacedCard.before(cardFragment);
 };
 
-renderCard(offerData[0]);
+var mapPin = document.querySelector('.map__pin--main');
+var mainForm = document.querySelector('.ad-form');
+var mainFormElements = mainForm.querySelectorAll('input, button, select, textarea');
+var inputAddress = mainForm.querySelector('#address');
+
+var deActivatedPage = function () {
+  var pinPosition = {
+    x: Math.round(parseInt(mapPin.style.left, 10) - (MAIN_PIN_WIDTH / 2)),
+    y: Math.round(parseInt(mapPin.style.top, 10) - (MAIN_PIN_HEIGHT / 2))
+  };
+
+  for (var i = 0; i < mainFormElements.length; i++) {
+    mainFormElements[i].disabled = true;
+  }
+
+  inputAddress.value = pinPosition.x + ', ' + pinPosition.y;
+};
+
+deActivatedPage();
+
+var activatedPage = function () {
+  renderCard(offerData[0]);
+  renderPins(offerData);
+
+  for (var i = 0; i < mainFormElements.length; i++) {
+    mainFormElements[i].disabled = false;
+  }
+
+  document.querySelector('.map').classList.remove('map--faded');
+  mainForm.classList.remove('ad-form--disabled');
+};
+
+mapPin.addEventListener('mousedown', function (evt) {
+  if (evt.button === MOUSE_KEY) {
+    activatedPage();
+  }
+});
+mapPin.addEventListener('keydown', function (evt) {
+  if (evt.key === ENTER_KEY) {
+    activatedPage();
+  }
+});
+
+var selectRoomAmout = mainForm.querySelector('#room_number');
+var selectCapacity = mainForm.querySelector('#capacity');
+
+var RoomCapacity = {
+  '1': ['1'],
+  '2': ['1', '2'],
+  '3': ['1', '2', '3'],
+  '100': ['0'],
+};
+
+var selectChangeHandler = function () {
+  var selectArray = RoomCapacity[selectRoomAmout.options[selectRoomAmout.selectedIndex].value];
+  var selectItems = Array.from(selectCapacity.options);
+
+  selectItems.forEach(function (current) {
+    current.disabled = true;
+
+    for (var i = 0; i < selectArray.length; i++) {
+      if (selectArray[i] === current.value) {
+        current.disabled = false;
+        current.selected = true;
+
+        break;
+      }
+    }
+  });
+};
+
+selectRoomAmout.addEventListener('change', selectChangeHandler);
