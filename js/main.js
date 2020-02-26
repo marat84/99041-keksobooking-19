@@ -1,6 +1,7 @@
 'use strict';
 
 var ENTER_KEY = 'Enter';
+var ESCAPE_KEY = 'Escape';
 var MOUSE_KEY = 0;
 var MAIN_PIN_TAIL_HEIGHT = 22;
 var MAIN_PIN_WIDTH = 62;
@@ -79,28 +80,28 @@ var generateData = function (count) {
     var yAxis = getRandomNumber(130, 630);
 
     resultArray.push(
-        {
-          'author': {
-            'avatar': 'img/avatars/user0' + (i + 1) + '.png',
-          },
-          'offer': {
-            'title': OFFER_TITLE_DATA[i],
-            'address': (xAxis + ', ' + yAxis),
-            'price': getRandomNumber(1000, 9000),
-            'type': getRandomValue(STUDIO_TYPES),
-            'rooms': getRandomNumber(1, 6),
-            'guests': getRandomNumber(1, 8),
-            'checkin': getRandomValue(TIMES_CHECKIN),
-            'checkout': getRandomValue(TIMES_CHECKOUT),
-            'features': getRandomSlicedArray(STUDIO_FEATURES),
-            'description': OFFER_DESCRIPTION[i],
-            'photos': getRandomSlicedArray(STUDIO_PHOTOS)
-          },
-          'location': {
-            'x': xAxis,
-            'y': yAxis
-          }
+      {
+        'author': {
+          'avatar': 'img/avatars/user0' + (i + 1) + '.png',
+        },
+        'offer': {
+          'title': OFFER_TITLE_DATA[i],
+          'address': (xAxis + ', ' + yAxis),
+          'price': getRandomNumber(1000, 9000),
+          'type': getRandomValue(STUDIO_TYPES),
+          'rooms': getRandomNumber(1, 6),
+          'guests': getRandomNumber(1, 8),
+          'checkin': getRandomValue(TIMES_CHECKIN),
+          'checkout': getRandomValue(TIMES_CHECKOUT),
+          'features': getRandomSlicedArray(STUDIO_FEATURES),
+          'description': OFFER_DESCRIPTION[i],
+          'photos': getRandomSlicedArray(STUDIO_PHOTOS)
+        },
+        'location': {
+          'x': xAxis,
+          'y': yAxis
         }
+      }
     );
   }
 
@@ -284,3 +285,50 @@ var selectChangeHandler = function () {
 };
 
 selectRoomAmout.addEventListener('change', selectChangeHandler);
+
+
+activatedPage();
+
+var mapPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+var popupCard = document.querySelector('.map__card');
+var popupCardClose = popupCard.querySelector('.popup__close');
+
+
+var mapPinKeyDownHandler = function (evt) {
+  if (evt.key === ENTER_KEY) {
+    openCard();
+  }
+};
+
+var documentKeyDownHandler = function (evt) {
+  if (evt.key === ESCAPE_KEY) {
+    closeCard();
+  }
+};
+
+var popupCardCloseKeyDownHandler = function (evt) {
+  if (evt.key === ENTER_KEY) {
+    closeCard();
+  }
+};
+
+var openCard = function () {
+  popupCard.classList.remove('hidden');
+
+  popupCardClose.addEventListener('click', closeCard);
+  popupCardClose.addEventListener('keydown', popupCardCloseKeyDownHandler);
+  document.addEventListener('keydown', documentKeyDownHandler);
+};
+
+var closeCard = function () {
+  popupCard.classList.add('hidden');
+
+  popupCardClose.removeEventListener('click', closeCard);
+  popupCardClose.removeEventListener('keydown', popupCardCloseKeyDownHandler);
+  document.removeEventListener('keydown', documentKeyDownHandler);
+};
+
+mapPins.forEach(function (current) {
+  current.addEventListener('click', openCard);
+  current.addEventListener('keydown', mapPinKeyDownHandler);
+});
