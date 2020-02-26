@@ -1,6 +1,7 @@
 'use strict';
 
 var ENTER_KEY = 'Enter';
+var ESCAPE_KEY = 'Escape';
 var MOUSE_KEY = 0;
 var MAIN_PIN_TAIL_HEIGHT = 22;
 var MAIN_PIN_WIDTH = 62;
@@ -212,6 +213,7 @@ var renderCard = function (cards) {
   elementBeforePlacedCard.before(cardFragment);
 };
 
+// Активация-деактивация страницы
 var mapPin = document.querySelector('.map__pin--main');
 var mainForm = document.querySelector('.ad-form');
 var mainFormElements = mainForm.querySelectorAll('input, button, select, textarea');
@@ -255,6 +257,7 @@ mapPin.addEventListener('keydown', function (evt) {
   }
 });
 
+// Валидация. Привязка количества комнат к числу гостей
 var selectRoomAmout = mainForm.querySelector('#room_number');
 var selectCapacity = mainForm.querySelector('#capacity');
 
@@ -266,7 +269,11 @@ var RoomCapacity = {
 };
 
 var selectChangeHandler = function () {
-  var selectArray = RoomCapacity[selectRoomAmout.options[selectRoomAmout.selectedIndex].value];
+  var selectArray = RoomCapacity[
+    selectRoomAmout.options[
+      selectRoomAmout.selectedIndex
+    ].value
+  ];
   var selectItems = Array.from(selectCapacity.options);
 
   selectItems.forEach(function (current) {
@@ -284,3 +291,90 @@ var selectChangeHandler = function () {
 };
 
 selectRoomAmout.addEventListener('change', selectChangeHandler);
+
+// Попап с событиями на пинах
+var mapPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+var popupCard = document.querySelector('.map__card');
+
+var mapPinKeyDownHandler = function (evt) {
+  if (evt.key === ENTER_KEY) {
+    openCard();
+  }
+};
+
+var documentKeyDownHandler = function (evt) {
+  if (evt.key === ESCAPE_KEY) {
+    closeCard();
+  }
+};
+
+var popupCardCloseKeyDownHandler = function (evt) {
+  if (evt.key === ENTER_KEY) {
+    closeCard();
+  }
+};
+
+var openCard = function () {
+  var popupCardClose = popupCard.querySelector('.popup__close');
+  popupCard.classList.remove('hidden');
+
+  popupCardClose.addEventListener('click', closeCard);
+  popupCardClose.addEventListener('keydown', popupCardCloseKeyDownHandler);
+  document.addEventListener('keydown', documentKeyDownHandler);
+};
+
+var closeCard = function () {
+  var popupCardClose = popupCard.querySelector('.popup__close');
+  popupCard.classList.add('hidden');
+
+  popupCardClose.removeEventListener('click', closeCard);
+  popupCardClose.removeEventListener('keydown', popupCardCloseKeyDownHandler);
+  document.removeEventListener('keydown', documentKeyDownHandler);
+};
+
+mapPins.forEach(function (current) {
+  current.addEventListener('click', openCard);
+  current.addEventListener('keydown', mapPinKeyDownHandler);
+});
+
+// Валидация
+var TypePrice = {
+  'bungalo': 0,
+  'flat': 1000,
+  'house': 5000,
+  'palace': 10000
+};
+
+var placeTypeSelect = mainForm.querySelector('#type');
+var priceTypeInput = mainForm.querySelector('#price');
+
+var placeTypeSelectChangeHandler = function () {
+  var price = TypePrice[
+    placeTypeSelect.options[
+      placeTypeSelect.selectedIndex
+    ].value
+  ];
+
+  priceTypeInput.placeholder = price;
+  priceTypeInput.min = price;
+};
+
+placeTypeSelect.addEventListener('change', placeTypeSelectChangeHandler);
+
+var selectTimeIn = mainForm.querySelector('#timein');
+var selectTimeOut = mainForm.querySelector('#timeout');
+
+var selectTimeInChangeHandler = function () {
+  var timeIndex = selectTimeIn.selectedIndex;
+
+  selectTimeOut.options[timeIndex].selected = true;
+};
+
+var selectTimeOutChangeHandler = function () {
+  var timeIndex = selectTimeOut.selectedIndex;
+
+  selectTimeIn.options[timeIndex].selected = true;
+};
+
+selectTimeIn.addEventListener('change', selectTimeInChangeHandler);
+selectTimeOut.addEventListener('change', selectTimeOutChangeHandler);
