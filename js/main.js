@@ -80,28 +80,28 @@ var generateData = function (count) {
     var yAxis = getRandomNumber(130, 630);
 
     resultArray.push(
-      {
-        'author': {
-          'avatar': 'img/avatars/user0' + (i + 1) + '.png',
-        },
-        'offer': {
-          'title': OFFER_TITLE_DATA[i],
-          'address': (xAxis + ', ' + yAxis),
-          'price': getRandomNumber(1000, 9000),
-          'type': getRandomValue(STUDIO_TYPES),
-          'rooms': getRandomNumber(1, 6),
-          'guests': getRandomNumber(1, 8),
-          'checkin': getRandomValue(TIMES_CHECKIN),
-          'checkout': getRandomValue(TIMES_CHECKOUT),
-          'features': getRandomSlicedArray(STUDIO_FEATURES),
-          'description': OFFER_DESCRIPTION[i],
-          'photos': getRandomSlicedArray(STUDIO_PHOTOS)
-        },
-        'location': {
-          'x': xAxis,
-          'y': yAxis
+        {
+          'author': {
+            'avatar': 'img/avatars/user0' + (i + 1) + '.png',
+          },
+          'offer': {
+            'title': OFFER_TITLE_DATA[i],
+            'address': (xAxis + ', ' + yAxis),
+            'price': getRandomNumber(1000, 9000),
+            'type': getRandomValue(STUDIO_TYPES),
+            'rooms': getRandomNumber(1, 6),
+            'guests': getRandomNumber(1, 8),
+            'checkin': getRandomValue(TIMES_CHECKIN),
+            'checkout': getRandomValue(TIMES_CHECKOUT),
+            'features': getRandomSlicedArray(STUDIO_FEATURES),
+            'description': OFFER_DESCRIPTION[i],
+            'photos': getRandomSlicedArray(STUDIO_PHOTOS)
+          },
+          'location': {
+            'x': xAxis,
+            'y': yAxis
+          }
         }
-      }
     );
   }
 
@@ -213,6 +213,7 @@ var renderCard = function (cards) {
   elementBeforePlacedCard.before(cardFragment);
 };
 
+// Активация-деактивация страницы
 var mapPin = document.querySelector('.map__pin--main');
 var mainForm = document.querySelector('.ad-form');
 var mainFormElements = mainForm.querySelectorAll('input, button, select, textarea');
@@ -256,6 +257,7 @@ mapPin.addEventListener('keydown', function (evt) {
   }
 });
 
+// Валидация. Привязка количества комнат к числу гостей
 var selectRoomAmout = mainForm.querySelector('#room_number');
 var selectCapacity = mainForm.querySelector('#capacity');
 
@@ -267,7 +269,11 @@ var RoomCapacity = {
 };
 
 var selectChangeHandler = function () {
-  var selectArray = RoomCapacity[selectRoomAmout.options[selectRoomAmout.selectedIndex].value];
+  var selectArray = RoomCapacity[
+    selectRoomAmout.options[
+      selectRoomAmout.selectedIndex
+    ].value
+  ];
   var selectItems = Array.from(selectCapacity.options);
 
   selectItems.forEach(function (current) {
@@ -286,13 +292,9 @@ var selectChangeHandler = function () {
 
 selectRoomAmout.addEventListener('change', selectChangeHandler);
 
-
-activatedPage();
-
+// Попап с событиями на пинах
 var mapPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
 var popupCard = document.querySelector('.map__card');
-var popupCardClose = popupCard.querySelector('.popup__close');
-
 
 var mapPinKeyDownHandler = function (evt) {
   if (evt.key === ENTER_KEY) {
@@ -313,6 +315,7 @@ var popupCardCloseKeyDownHandler = function (evt) {
 };
 
 var openCard = function () {
+  var popupCardClose = popupCard.querySelector('.popup__close');
   popupCard.classList.remove('hidden');
 
   popupCardClose.addEventListener('click', closeCard);
@@ -321,6 +324,7 @@ var openCard = function () {
 };
 
 var closeCard = function () {
+  var popupCardClose = popupCard.querySelector('.popup__close');
   popupCard.classList.add('hidden');
 
   popupCardClose.removeEventListener('click', closeCard);
@@ -332,3 +336,45 @@ mapPins.forEach(function (current) {
   current.addEventListener('click', openCard);
   current.addEventListener('keydown', mapPinKeyDownHandler);
 });
+
+// Валидация
+var TypePrice = {
+  'bungalo': 0,
+  'flat': 1000,
+  'house': 5000,
+  'palace': 10000
+};
+
+var placeTypeSelect = mainForm.querySelector('#type');
+var priceTypeInput = mainForm.querySelector('#price');
+
+var placeTypeSelectChangeHandler = function () {
+  var price = TypePrice[
+    placeTypeSelect.options[
+      placeTypeSelect.selectedIndex
+    ].value
+  ];
+
+  priceTypeInput.placeholder = price;
+  priceTypeInput.min = price;
+};
+
+placeTypeSelect.addEventListener('change', placeTypeSelectChangeHandler);
+
+var selectTimeIn = mainForm.querySelector('#timein');
+var selectTimeOut = mainForm.querySelector('#timeout');
+
+var selectTimeInChangeHandler = function () {
+  var timeIndex = selectTimeIn.selectedIndex;
+
+  selectTimeOut.options[timeIndex].selected = true;
+};
+
+var selectTimeOutChangeHandler = function () {
+  var timeIndex = selectTimeOut.selectedIndex;
+
+  selectTimeIn.options[timeIndex].selected = true;
+};
+
+selectTimeIn.addEventListener('change', selectTimeInChangeHandler);
+selectTimeOut.addEventListener('change', selectTimeOutChangeHandler);
