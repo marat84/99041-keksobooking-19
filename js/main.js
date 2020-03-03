@@ -9,6 +9,7 @@ var MAIN_PIN_HEIGHT = 62;
 var SMALL_PIN_HEIGHT = 70;
 var SMALL_PIN_WIDTH = 50;
 var MAP_WIDTH = 1200;
+var INTERACTIVE_ELEMENT = 'input, button, select, textarea';
 
 var OFFER_TITLE_DATA = [
   'Аренда шикарной 2х комнатной квартиры',
@@ -205,19 +206,27 @@ var createCard = function (card) {
 };
 
 var renderCard = function (cards) {
-  var cardFragment = document.createDocumentFragment();
-  cardFragment.appendChild(createCard(cards));
+  // var cardFragment = document.createDocumentFragment();
+  // cardFragment.appendChild(createCard(cards));
 
   // elementBeforePlacedCard.insertAdjacentHTML('beforebegin', cardFragment.querySelector('.popup'));
 
-  elementBeforePlacedCard.before(cardFragment);
+  elementBeforePlacedCard.before(createCard(cards));
 };
 
 // Активация-деактивация страницы
 var mapPin = document.querySelector('.map__pin--main');
 var mainForm = document.querySelector('.ad-form');
-var mainFormElements = mainForm.querySelectorAll('input, button, select, textarea');
+var mapFilterForm = document.querySelector('.map__filters');
+var mainFormElements = mainForm.querySelectorAll(INTERACTIVE_ELEMENT);
+var mapFilterFormElements = mapFilterForm.querySelectorAll(INTERACTIVE_ELEMENT);
 var inputAddress = mainForm.querySelector('#address');
+
+var setDisabledToElements = function (elements, isDisabled) {
+  for (var i = 0; i < elements.length; i++) {
+    elements[i].disabled = (isDisabled);
+  }
+};
 
 var deActivatedPage = function () {
   var pinPosition = {
@@ -225,9 +234,8 @@ var deActivatedPage = function () {
     y: Math.round(parseInt(mapPin.style.top, 10) - (MAIN_PIN_HEIGHT / 2))
   };
 
-  for (var i = 0; i < mainFormElements.length; i++) {
-    mainFormElements[i].disabled = true;
-  }
+  setDisabledToElements(mainFormElements, true);
+  setDisabledToElements(mapFilterFormElements, true);
 
   inputAddress.value = pinPosition.x + ', ' + pinPosition.y;
 };
@@ -238,12 +246,57 @@ var activatedPage = function () {
   renderCard(offerData[0]);
   renderPins(offerData);
 
-  for (var i = 0; i < mainFormElements.length; i++) {
-    mainFormElements[i].disabled = false;
-  }
+  setDisabledToElements(mainFormElements, false);
+  setDisabledToElements(mapFilterFormElements, false);
 
   document.querySelector('.map').classList.remove('map--faded');
   mainForm.classList.remove('ad-form--disabled');
+
+  // Попап с событиями на пинах
+  var mapPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+  var popupCard = document.querySelector('.map__card');
+
+  var mapPinKeyDownHandler = function (evt) {
+    if (evt.key === ENTER_KEY) {
+      openCard();
+    }
+  };
+
+  var documentKeyDownHandler = function (evt) {
+    if (evt.key === ESCAPE_KEY) {
+      closeCard();
+    }
+  };
+
+  var popupCardCloseKeyDownHandler = function (evt) {
+    if (evt.key === ENTER_KEY) {
+      closeCard();
+    }
+  };
+
+  var openCard = function () {
+    var popupCardClose = popupCard.querySelector('.popup__close');
+    popupCard.classList.remove('hidden');
+
+    popupCardClose.addEventListener('click', closeCard);
+    popupCardClose.addEventListener('keydown', popupCardCloseKeyDownHandler);
+    document.addEventListener('keydown', documentKeyDownHandler);
+  };
+
+  var closeCard = function () {
+    var popupCardClose = popupCard.querySelector('.popup__close');
+    popupCard.classList.add('hidden');
+
+    popupCardClose.removeEventListener('click', closeCard);
+    popupCardClose.removeEventListener('keydown', popupCardCloseKeyDownHandler);
+    document.removeEventListener('keydown', documentKeyDownHandler);
+  };
+
+  mapPins.forEach(function (current) {
+    current.addEventListener('click', openCard);
+    current.addEventListener('keydown', mapPinKeyDownHandler);
+  });
+
 };
 
 mapPin.addEventListener('mousedown', function (evt) {
@@ -291,51 +344,6 @@ var selectChangeHandler = function () {
 };
 
 selectRoomAmout.addEventListener('change', selectChangeHandler);
-
-// Попап с событиями на пинах
-var mapPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-var popupCard = document.querySelector('.map__card');
-
-var mapPinKeyDownHandler = function (evt) {
-  if (evt.key === ENTER_KEY) {
-    openCard();
-  }
-};
-
-var documentKeyDownHandler = function (evt) {
-  if (evt.key === ESCAPE_KEY) {
-    closeCard();
-  }
-};
-
-var popupCardCloseKeyDownHandler = function (evt) {
-  if (evt.key === ENTER_KEY) {
-    closeCard();
-  }
-};
-
-var openCard = function () {
-  var popupCardClose = popupCard.querySelector('.popup__close');
-  popupCard.classList.remove('hidden');
-
-  popupCardClose.addEventListener('click', closeCard);
-  popupCardClose.addEventListener('keydown', popupCardCloseKeyDownHandler);
-  document.addEventListener('keydown', documentKeyDownHandler);
-};
-
-var closeCard = function () {
-  var popupCardClose = popupCard.querySelector('.popup__close');
-  popupCard.classList.add('hidden');
-
-  popupCardClose.removeEventListener('click', closeCard);
-  popupCardClose.removeEventListener('keydown', popupCardCloseKeyDownHandler);
-  document.removeEventListener('keydown', documentKeyDownHandler);
-};
-
-mapPins.forEach(function (current) {
-  current.addEventListener('click', openCard);
-  current.addEventListener('keydown', mapPinKeyDownHandler);
-});
 
 // Валидация
 var TypePrice = {
