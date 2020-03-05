@@ -1,9 +1,6 @@
 'use strict';
 
 (function () {
-  // var MAIN_PIN_TAIL_HEIGHT = 22;
-  var MAIN_PIN_WIDTH = 62;
-  var MAIN_PIN_HEIGHT = 62;
   var INTERACTIVE_ELEMENT = 'input, button, select, textarea';
 
   // Активация-деактивация страницы
@@ -22,8 +19,8 @@
 
   var deActivatedPage = function () {
     var pinPosition = {
-      x: Math.round(parseInt(mapPin.style.left, 10) - (MAIN_PIN_WIDTH / 2)),
-      y: Math.round(parseInt(mapPin.style.top, 10) - (MAIN_PIN_HEIGHT / 2))
+      x: Math.round(parseInt(mapPin.style.left, 10) - (window.utils.mainPinWidth / 2)),
+      y: Math.round(parseInt(mapPin.style.top, 10) - (window.utils.mainPinHeight / 2))
     };
 
     setDisabledToFormElements(mainFormElements, true);
