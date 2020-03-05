@@ -50,17 +50,22 @@
       current.addEventListener('keydown', window.popup.mapPinKeyDownHandler);
     });
 
+    mapPin.removeEventListener('mousedown', mapPinMouseDownHandler);
+    mapPin.removeEventListener('keydown', mapPinKeyDownHandler);
   };
 
-  mapPin.addEventListener('mousedown', function (evt) {
+  var mapPinMouseDownHandler = function (evt) {
     if (evt.button === window.utils.keyMouse) {
       activatedPage();
     }
-  });
+  };
 
-  mapPin.addEventListener('keydown', function (evt) {
+  var mapPinKeyDownHandler = function (evt) {
     if (evt.key === window.utils.keyEnter) {
       activatedPage();
     }
-  });
+  };
+
+  mapPin.addEventListener('mousedown', mapPinMouseDownHandler);
+  mapPin.addEventListener('keydown', mapPinKeyDownHandler);
 })();
