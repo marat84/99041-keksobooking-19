@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var CARD_AMOUNT = 8;
   var cardTemplate = document.querySelector('#card').content.querySelector('.popup');
   var elementBeforePlacedCard = document.querySelector('.map__filters-container');
 
@@ -70,12 +71,15 @@
   };
 
   var renderCard = function (cards) {
-    // var cardFragment = document.createDocumentFragment();
-    // cardFragment.appendChild(createCard(cards));
+
+    for (var i = 0; i < CARD_AMOUNT; i++) {
+      var cardFragment = document.createDocumentFragment();
+      cardFragment.appendChild(createCard(cards[i]));
+
+      elementBeforePlacedCard.before(cardFragment);
+    }
 
     // elementBeforePlacedCard.insertAdjacentHTML('beforebegin', cardFragment.querySelector('.popup'));
-
-    elementBeforePlacedCard.before(createCard(cards));
   };
 
   window.card = {

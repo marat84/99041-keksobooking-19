@@ -32,7 +32,8 @@
   deActivatedPage();
 
   var activatedPage = function () {
-    window.card.renderCard(window.data.generateData(8)[0]);
+
+    window.card.renderCard(window.data.generateData(8));
     window.pins.renderPins(window.data.generateData(8));
 
     setDisabledToFormElements(mainFormElements, false);
