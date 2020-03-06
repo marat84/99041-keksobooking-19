@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-  var MAP_WIDTH = 1200;
   var OFFER_TITLE_DATA = [
     'Аренда шикарной 2х комнатной квартиры',
     'Квартира в восхитительной новостройке',
@@ -56,8 +55,8 @@
     var resultArray = [];
 
     for (var i = 0; i < count; i++) {
-      var xAxis = window.utils.getRandomNumber(window.utils.smallPinWidth, (MAP_WIDTH - window.utils.smallPinWidth));
-      var yAxis = window.utils.getRandomNumber(130, 630);
+      var xAxis = window.utils.getRandomNumber(window.utils.smallPinWidth, (window.utils.mapWidth - window.utils.smallPinWidth));
+      var yAxis = window.utils.getRandomNumber(window.utils.mapMinHeight, window.utils.mapMaxHeight);
 
       resultArray.push(
           {
