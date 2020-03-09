@@ -87,12 +87,6 @@
     return resultArray;
   };
 
-  var getData = function (data) {
-    return (data);
-  };
-
-  window.load.loadData(getData);
-
   window.data = {
     generateData: generateData
   };

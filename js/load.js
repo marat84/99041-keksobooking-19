@@ -3,7 +3,7 @@
 (function () {
   var xhr = new XMLHttpRequest();
 
-  var loadData = function (onLoad, onError) {
+  var loadData = function (onLoad) {
     xhr.responseType = 'json';
     xhr.timeout = 10000;
     xhr.open('GET', 'https://js.dump.academy/keksobooking/data');

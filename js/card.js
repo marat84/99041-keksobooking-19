@@ -1,9 +1,30 @@
 'use strict';
 
 (function () {
-  var CARD_AMOUNT = 8;
   var cardTemplate = document.querySelector('#card').content.querySelector('.popup');
   var elementBeforePlacedCard = document.querySelector('.map__filters-container');
+
+  var cardClone;
+
+  var popupCardCloseKeyDownHandler = function (evt) {
+    if (evt.key === window.utils.keyEnter) {
+      evt.preventDefault();
+
+      closeCard(cardClone);
+    }
+  };
+
+  var documentKeyDownHandler = function (evt) {
+    if (evt.key === window.utils.keyEscape) {
+      closeCard(cardClone);
+    }
+  };
+
+  var closeCard = function (card) {
+    card.classList.add('hidden');
+
+    document.removeEventListener('keydown', documentKeyDownHandler);
+  };
 
   var getOfferType = function (type) {
     switch (type) {
@@ -48,7 +69,21 @@
   };
 
   var createCard = function (card) {
-    var cardClone = cardTemplate.cloneNode(true);
+    if (cardClone) {
+      cardClone.remove();
+    }
+
+    cardClone = cardTemplate.cloneNode(true);
+
+    var popupCardClose = cardClone.querySelector('.popup__close');
+    cardClone.classList.remove('hidden');
+
+    document.addEventListener('keydown', documentKeyDownHandler);
+
+    popupCardClose.addEventListener('click', function () {
+      closeCard(cardClone);
+    });
+    popupCardClose.addEventListener('keydown', popupCardCloseKeyDownHandler);
 
     cardClone.querySelector('.popup__title').textContent = card.offer.title;
     cardClone.querySelector('.popup__text--address').textContent = card.offer.address;
@@ -71,18 +106,24 @@
   };
 
   var renderCard = function (cards) {
+    // console.log(cards);
 
-    for (var i = 0; i < CARD_AMOUNT; i++) {
-      var cardFragment = document.createDocumentFragment();
-      cardFragment.appendChild(createCard(cards[i]));
+    var cardFragment = document.createDocumentFragment();
+    cardFragment.appendChild(createCard(cards));
 
-      elementBeforePlacedCard.before(cardFragment);
-    }
+    elementBeforePlacedCard.before(cardFragment);
+
+    // for (var i = 0; i < CARD_AMOUNT; i++) {
+    //   var cardFragment = document.createDocumentFragment();
+    //   cardFragment.appendChild(createCard(cards[i]));
+    //
+    //   elementBeforePlacedCard.before(cardFragment);
+    // }
 
     // elementBeforePlacedCard.insertAdjacentHTML('beforebegin', cardFragment.querySelector('.popup'));
   };
 
   window.card = {
-    renderCard: renderCard,
+    renderCard: renderCard
   };
 })();
