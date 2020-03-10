@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-  var CARD_AMOUNT = 8;
   var templatePin = document.querySelector('#pin').content.querySelector('.map__pin');
 
   var createPinElement = function (pin) {
@@ -34,7 +33,7 @@
   var renderPins = function (pins) {
     var fragmentPin = document.createDocumentFragment();
 
-    for (var i = 0; i < CARD_AMOUNT; i++) {
+    for (var i = 0; i < pins.length; i++) {
       fragmentPin.appendChild(createPinElement(pins[i]));
     }
 
