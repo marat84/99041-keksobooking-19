@@ -12,6 +12,19 @@
     clonePin.querySelector('img').src = pin.author.avatar;
     clonePin.querySelector('img').alt = pin.offer.title;
 
+    clonePin.addEventListener('click', function () {
+      // console.log(!document.querySelectorAll('.map__card'));
+      window.card.renderCard(pin);
+    });
+
+    clonePin.addEventListener('keydown', function (evt) {
+      if (evt.key === window.utils.keyEnter) {
+        evt.preventDefault();
+
+        window.card.renderCard(pin);
+      }
+    });
+
     return clonePin;
   };
 

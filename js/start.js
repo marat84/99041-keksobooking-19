@@ -31,9 +31,10 @@
 
   deActivatedPage();
 
+  var cardData = [];
   var activatedPage = function () {
-    window.card.renderCard(window.data.generateData(8)[0]);
-    window.pins.renderPins(window.data.generateData(8));
+
+    window.load.loadData(onLoad, window.message.showMessage);
 
     setDisabledToFormElements(mainFormElements, false);
     setDisabledToFormElements(mapFilterFormElements, false);
@@ -41,14 +42,14 @@
     document.querySelector('.map').classList.remove('map--faded');
     mainForm.classList.remove('ad-form--disabled');
 
-    var mapPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-    mapPins.forEach(function (current) {
-      current.addEventListener('click', window.popup.openCard);
-      current.addEventListener('keydown', window.popup.mapPinKeyDownHandler);
-    });
-
     mapPin.removeEventListener('mousedown', mapPinMouseDownHandler);
     mapPin.removeEventListener('keydown', mapPinKeyDownHandler);
+  };
+
+  var onLoad = function (data) {
+    cardData = data;
+
+    window.pins.renderPins(cardData);
   };
 
   var mapPinMouseDownHandler = function (evt) {
