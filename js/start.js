@@ -54,7 +54,7 @@
   var cardData = [];
   var activatedPage = function () {
 
-    window.load.loadData(onLoad, window.message.showMessage);
+    window.load.loadData(onLoad, window.errorMessage.showMessage);
 
     setDisabledToFormElements(mainFormElements, false);
     setDisabledToFormElements(mapFilterFormElements, false);

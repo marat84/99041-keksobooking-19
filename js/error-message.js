@@ -40,10 +40,10 @@
     templateError.addEventListener('click', templateErrorClickHandler);
     document.addEventListener('keydown', documentKeyDownHandler);
 
-    document.body.appendChild(templateError);
+    document.querySelector('main').appendChild(templateError);
   };
 
-  window.message = {
+  window.errorMessage = {
     showMessage: showMessage
   };
 
