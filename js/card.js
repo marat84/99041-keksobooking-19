@@ -3,16 +3,7 @@
 (function () {
   var cardTemplate = document.querySelector('#card').content.querySelector('.popup');
   var elementBeforePlacedCard = document.querySelector('.map__filters-container');
-
   var cardClone;
-
-  var popupCardCloseKeyDownHandler = function (evt) {
-    if (evt.key === window.utils.keyEnter) {
-      evt.preventDefault();
-
-      closeCard(cardClone);
-    }
-  };
 
   var documentKeyDownHandler = function (evt) {
     if (evt.key === window.utils.keyEscape) {
@@ -22,6 +13,8 @@
 
   var closeCard = function (card) {
     card.classList.add('hidden');
+
+    window.pins.removePinClass();
 
     document.removeEventListener('keydown', documentKeyDownHandler);
   };
@@ -83,7 +76,6 @@
     popupCardClose.addEventListener('click', function () {
       closeCard(cardClone);
     });
-    popupCardClose.addEventListener('keydown', popupCardCloseKeyDownHandler);
 
     cardClone.querySelector('.popup__title').textContent = card.offer.title;
     cardClone.querySelector('.popup__text--address').textContent = card.offer.address;
