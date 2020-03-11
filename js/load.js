@@ -35,8 +35,8 @@
 
   var loadData = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();
-    xhr.responseType = 'json';
     xhr.timeout = 10000;
+    xhr.responseType = 'json';
     xhr.open('GET', 'https://js.dump.academy/keksobooking/data');
 
     xhr.addEventListener('load', function () {

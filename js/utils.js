@@ -12,6 +12,8 @@
   var MAP_WIDTH = 1200;
   var MAP_MIN_HEIGHT = 130;
   var MAP_MAX_HEIGHT = 630;
+  var HALF_PIN_WIDTH = MAIN_PIN_WIDTH / 2;
+  var PIN_HEIGHT_WITH_TAIL = MAIN_PIN_HEIGHT + MAIN_PIN_TAIL_HEIGHT;
 
   var getRandomValue = function (values) {
     return values[Math.floor(Math.random() * values.length)];
@@ -23,6 +25,13 @@
 
   var getRandomSlicedArray = function (array) {
     return array.slice(0, getRandomNumber(1, array.length));
+  };
+
+  var getPinPosition = function (pin) {
+    return {
+      x: parseInt(pin.style.left, 10),
+      y: parseInt(pin.style.top, 10)
+    };
   };
 
   window.utils = {
@@ -37,8 +46,11 @@
     mapWidth: MAP_WIDTH,
     mapMinHeight: MAP_MIN_HEIGHT,
     mapMaxHeight: MAP_MAX_HEIGHT,
+    halfPinWidth: HALF_PIN_WIDTH,
+    pinHeightWithTail: PIN_HEIGHT_WITH_TAIL,
     getRandomValue: getRandomValue,
     getRandomNumber: getRandomNumber,
     getRandomSlicedArray: getRandomSlicedArray,
+    getPinPosition: getPinPosition
   };
 })();

@@ -25,6 +25,8 @@
 
   var mapPinKeyDownHandler = function (evt) {
     if (evt.key === window.utils.keyEnter) {
+      inputAddress.value = (window.utils.getPinPosition(mapPin).x + window.utils.halfPinWidth) + ', ' + (window.utils.getPinPosition(mapPin).y + window.utils.pinHeightWithTail);
+
       activatedPage();
     }
   };
