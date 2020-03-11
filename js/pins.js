@@ -4,7 +4,7 @@
   var templatePin = document.querySelector('#pin').content.querySelector('.map__pin');
   var mapWithPins = document.querySelector('.map__pins');
 
-  var removePinClass = function () {
+  var removePinActiveClass = function () {
     var activePin = mapWithPins.querySelector('.map__pin--active');
     if (activePin) {
       activePin.classList.remove('map__pin--active');
@@ -21,7 +21,7 @@
     clonePin.querySelector('img').alt = pin.offer.title;
 
     clonePin.addEventListener('click', function () {
-      removePinClass();
+      removePinActiveClass();
 
       clonePin.classList.add('map__pin--active');
 
@@ -35,14 +35,16 @@
     var fragmentPin = document.createDocumentFragment();
 
     for (var i = 0; i < pins.length; i++) {
-      fragmentPin.appendChild(createPinElement(pins[i]));
+      if (pins[i].offer) {
+        fragmentPin.appendChild(createPinElement(pins[i]));
+      }
     }
 
     mapWithPins.appendChild(fragmentPin);
   };
 
   window.pins = {
-    removePinClass: removePinClass,
+    removePinActiveClass: removePinActiveClass,
     renderPins: renderPins
   };
 })();

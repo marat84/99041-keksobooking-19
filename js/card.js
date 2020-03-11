@@ -3,6 +3,7 @@
 (function () {
   var cardTemplate = document.querySelector('#card').content.querySelector('.popup');
   var elementBeforePlacedCard = document.querySelector('.map__filters-container');
+
   var cardClone;
 
   var documentKeyDownHandler = function (evt) {
@@ -14,7 +15,7 @@
   var closeCard = function (card) {
     card.classList.add('hidden');
 
-    window.pins.removePinClass();
+    window.pins.removePinActiveClass();
 
     document.removeEventListener('keydown', documentKeyDownHandler);
   };
@@ -62,10 +63,6 @@
   };
 
   var createCard = function (card) {
-    if (cardClone) {
-      cardClone.remove();
-    }
-
     cardClone = cardTemplate.cloneNode(true);
 
     var popupCardClose = cardClone.querySelector('.popup__close');
@@ -84,13 +81,23 @@
     cardClone.querySelector('.popup__text--capacity').textContent = card.offer.rooms + ' комнаты для ' + card.offer.guests + ' гостей';
     cardClone.querySelector('.popup__text--time').textContent = 'Заезд после ' + card.offer.checkin + ', выезд до ' + card.offer.checkout;
 
-    cardClone.querySelector('.popup__features').innerHTML = '';
-    cardClone.querySelector('.popup__features').appendChild(renderFeatures(card.offer.features));
+    var cardFeature = cardClone.querySelector('.popup__features');
+    if (card.offer.features.length > 0) {
+      cardFeature.innerHTML = '';
+      cardFeature.appendChild(renderFeatures(card.offer.features));
+    } else {
+      cardFeature.remove();
+    }
 
     cardClone.querySelector('.popup__description').textContent = card.offer.description;
 
-    cardClone.querySelector('.popup__photos').innerHTML = '';
-    cardClone.querySelector('.popup__photos').appendChild(renderPhotos(card.offer.photos));
+    var cardPhoto = cardClone.querySelector('.popup__photos');
+    if (card.offer.features.length > 0) {
+      cardPhoto.innerHTML = '';
+      cardPhoto.appendChild(renderPhotos(card.offer.photos));
+    } else {
+      cardPhoto.remove();
+    }
 
     cardClone.querySelector('.popup__avatar').src = card.author.avatar;
 
@@ -98,21 +105,11 @@
   };
 
   var renderCard = function (cards) {
-    // console.log(cards);
+    if (cardClone) {
+      cardClone.remove();
+    }
 
-    var cardFragment = document.createDocumentFragment();
-    cardFragment.appendChild(createCard(cards));
-
-    elementBeforePlacedCard.before(cardFragment);
-
-    // for (var i = 0; i < CARD_AMOUNT; i++) {
-    //   var cardFragment = document.createDocumentFragment();
-    //   cardFragment.appendChild(createCard(cards[i]));
-    //
-    //   elementBeforePlacedCard.before(cardFragment);
-    // }
-
-    // elementBeforePlacedCard.insertAdjacentHTML('beforebegin', cardFragment.querySelector('.popup'));
+    elementBeforePlacedCard.before(createCard(cards));
   };
 
   window.card = {
