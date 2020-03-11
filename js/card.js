@@ -104,15 +104,20 @@
     return cardClone;
   };
 
-  var renderCard = function (cards) {
+  var removeCard = function () {
     if (cardClone) {
       cardClone.remove();
     }
+  };
+
+  var renderCard = function (cards) {
+    removeCard();
 
     elementBeforePlacedCard.before(createCard(cards));
   };
 
   window.card = {
-    renderCard: renderCard
+    renderCard: renderCard,
+    resetCard: removeCard
   };
 })();

@@ -1,6 +1,10 @@
 'use strict';
 
 (function () {
+  var XHR_TIMEOUT = 10000;
+  var XHR_LOAD_URL = 'https://js.dump.academy/keksobooking/data';
+  var XHR_SEND_URL = 'https://js.dump.academy/keksobooking';
+
   var getErrorStatus = function (status) {
     switch (status) {
       case 500:
@@ -33,11 +37,17 @@
     }
   };
 
-  var loadData = function (onLoad, onError) {
-    var xhr = new XMLHttpRequest();
-    xhr.timeout = 10000;
+  var xhrCreate = function () {
+    var request = new XMLHttpRequest();
+    request.timeout = XHR_TIMEOUT;
+    return request;
+  };
+
+  var load = function (onLoad, onError) {
+    var xhr = xhrCreate();
+
     xhr.responseType = 'json';
-    xhr.open('GET', 'https://js.dump.academy/keksobooking/data');
+    xhr.open('GET', XHR_LOAD_URL);
 
     xhr.addEventListener('load', function () {
       if (xhr.status === 200) {
@@ -58,7 +68,32 @@
     xhr.send();
   };
 
-  window.load = {
-    loadData: loadData
+  var send = function (data, onLoad, onError) {
+    var xhr = xhrCreate();
+
+    xhr.open('POST', XHR_SEND_URL);
+
+    xhr.addEventListener('load', function () {
+      if (xhr.status === 200) {
+        onLoad();
+      } else {
+        onError(getErrorStatus(xhr.status));
+      }
+    });
+
+    xhr.addEventListener('timeout', function () {
+      onError('Время на выполнение запроса истекло. Возможно, ваше интерент соединение не стабильно или сервер перегружен');
+    });
+
+    xhr.addEventListener('error', function () {
+      onError('Ошибка соединения! Возможно, введён некорректный адрес или у вас отсутсвует интернет соединение');
+    });
+
+    xhr.send(data);
+  };
+
+  window.backend = {
+    load: load,
+    send: send
   };
 })();

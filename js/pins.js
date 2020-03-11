@@ -11,6 +11,12 @@
     }
   };
 
+  var removePins = function () {
+    mapWithPins.querySelectorAll('.map__pin:not(.map__pin--main)').forEach(function (current) {
+      current.remove();
+    });
+  };
+
   var createPinElement = function (pin) {
     var clonePin = templatePin.cloneNode(true);
 
@@ -45,6 +51,7 @@
 
   window.pins = {
     removePinActiveClass: removePinActiveClass,
+    resetPins: removePins,
     renderPins: renderPins
   };
 })();
