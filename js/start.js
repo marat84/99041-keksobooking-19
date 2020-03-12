@@ -66,12 +66,6 @@
 
     window.backend.load(onLoad, window.message.errorMessage);
 
-    setDisabledToFormElements(mainFormElements, false);
-    setDisabledToFormElements(mapFilterFormElements, false);
-
-    map.classList.remove('map--faded');
-    mainForm.classList.remove('ad-form--disabled');
-
     mapPin.removeEventListener('mousedown', mapPinMouseDownHandler);
     mapPin.removeEventListener('keydown', mapPinKeyDownHandler);
   };
@@ -80,6 +74,12 @@
     cardData = data;
 
     window.pins.renderPins(cardData);
+
+    setDisabledToFormElements(mainFormElements, false);
+    setDisabledToFormElements(mapFilterFormElements, false);
+
+    map.classList.remove('map--faded');
+    mainForm.classList.remove('ad-form--disabled');
   };
 
   window.start = {
