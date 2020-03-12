@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var PIN_AMOUNT = 5;
   var templatePin = document.querySelector('#pin').content.querySelector('.map__pin');
   var mapWithPins = document.querySelector('.map__pins');
 
@@ -40,8 +41,8 @@
   var renderPins = function (pins) {
     var fragmentPin = document.createDocumentFragment();
 
-    for (var i = 0; i < pins.length; i++) {
-      if (pins[i].offer) {
+    for (var i = 0; i < PIN_AMOUNT; i++) {
+      if (pins[i]) {
         fragmentPin.appendChild(createPinElement(pins[i]));
       }
     }

@@ -73,6 +73,8 @@
   var onLoad = function (data) {
     cardData = data;
 
+    window.filter.filterHouseType(data);
+
     window.pins.renderPins(cardData);
 
     setDisabledToFormElements(mainFormElements, false);
