@@ -4,15 +4,6 @@
   var mainPin = document.querySelector('.map__pin--main');
   var mapPin = document.querySelector('.map__pins');
   var inputAddress = document.querySelector('#address');
-  var halfPinWidth = window.utils.mainPinWidth / 2;
-  var pinHeight = window.utils.mainPinHeight + window.utils.mainPinTailHeight;
-
-  var getPinPosition = function () {
-    return {
-      x: parseInt(mainPin.style.left, 10),
-      y: parseInt(mainPin.style.top, 10)
-    };
-  };
 
   mainPin.addEventListener('mousedown', function (evt) {
     if (evt.button === window.utils.keyMouse) {
@@ -29,11 +20,11 @@
         var shiftX = mainPin.offsetLeft - pinMoveCoordinates.x;
         var shiftY = mainPin.offsetTop - pinMoveCoordinates.y;
 
-        if (shiftX >= (halfPinWidth * -1) && shiftX <= (window.utils.mapWidth - halfPinWidth)) {
+        if (shiftX >= (window.utils.halfPinWidth * -1) && shiftX <= (window.utils.mapWidth - window.utils.halfPinWidth)) {
           mainPin.style.left = shiftX + 'px';
         }
 
-        if ((shiftY + pinHeight) >= window.utils.mapMinHeight && shiftY <= window.utils.mapMaxHeight) {
+        if ((shiftY + window.utils.pinHeightWithTail) >= window.utils.mapMinHeight && shiftY <= window.utils.mapMaxHeight) {
           mainPin.style.top = shiftY + 'px';
         }
 
@@ -45,7 +36,7 @@
 
       var windowMouseUpHandler = function () {
 
-        inputAddress.value = (getPinPosition().x + halfPinWidth) + ', ' + (getPinPosition().y + pinHeight);
+        inputAddress.value = (window.utils.getPinPosition(mainPin).x + window.utils.halfPinWidth) + ', ' + (window.utils.getPinPosition(mainPin).y + window.utils.pinHeightWithTail);
 
         mapPin.removeEventListener('mousemove', mapPinMouseMoveHandler);
         window.removeEventListener('mouseup', windowMouseUpHandler);

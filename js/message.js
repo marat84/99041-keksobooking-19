@@ -1,115 +1,82 @@
 'use strict';
 
 (function () {
-  var ERROR_COLOR = 'orangeRed';
-  var ERROR_SHOW_TIME = 6000;
-  var TRANSITION_DURATION = 0.5;
+  var templateError = document.querySelector('#error').content.querySelector('.error');
+  var titleErrorMessage = templateError.querySelector('.error__message');
+  var buttonErrorMessage = templateError.querySelector('.error__button');
+  var templateSuccess = document.querySelector('#success').content.querySelector('.success');
 
-  var getErrorStatus = function (status) {
-    switch (status) {
-      case 500:
-        return {
-          title: 'Сервер обнаружил непредвиденное состояние, которое не позволило ему выполнить запрос',
-          text: 'Попробуйте зайти позже'
-        };
-      case 400:
-      case 404:
-      case 410:
-        return {
-          title: 'Не возможно получить доступ к странице',
-          text: 'Возможно, введён некорректный адрес или страница была удалена'
-        };
-      case 401:
-      case 403:
-      case 407:
-        return {
-          title: 'У вас нет доступа',
-          text: 'Попробуйте сбросить кэш браузера и очистить cookies'
-        };
-      case 405:
-      case 411:
-      case 412:
-      case 413:
-      case 414:
-      case 415:
-      case 416:
-      case 417:
-      case 501:
-        return {
-          title: 'Некорректно указанный запрос',
-          text: 'Проверте правильность запроса'
-        };
-      case 503:
-        return {
-          title: 'Сервер не доступен',
-          text: 'Попробуйте зайти позже'
-        };
-      case 419:
-      case 504:
-        return {
-          title: 'Время на выполнение запроса истекло',
-          text: 'Попробуйте зайти позже'
-        };
-      default:
-        return {
-          title: 'Неизвестный статус: ' + status,
-          text: 'Проверте правильность запроса'
-        };
+  var clearPage = function () {
+    window.start.deActivatedPage();
+  };
+
+  var closeErrorMessage = function () {
+    buttonErrorMessage.removeEventListener('click', buttonErrorClickHandler);
+    templateError.removeEventListener('click', templateErrorClickHandler);
+    document.removeEventListener('keydown', documentKeyDownHandler);
+
+    templateError.remove();
+
+    clearPage();
+  };
+
+  var closeSuccessMessage = function () {
+    templateSuccess.removeEventListener('click', templateSuccessClickHandler);
+    document.removeEventListener('keydown', documentSuccessKeyDownHandler);
+
+    templateSuccess.remove();
+
+    clearPage();
+  };
+
+  var templateErrorClickHandler = function (evt) {
+    var target = evt.target;
+    if (target && !target.matches('.error__button')) {
+      closeErrorMessage();
     }
   };
 
-  var hideTimeoutMessage = function (block) {
-    var timerBlock = document.createElement('div');
-    var pointOfStart = 100;
-
-    timerBlock.setAttribute('style', 'position:absolute; left:0; top:0; height:4px; width:100%; background-color: ' + ERROR_COLOR + ';');
-
-    var interval = setInterval(function () {
-      pointOfStart--;
-
-      timerBlock.style.width = pointOfStart + '%';
-    }, ERROR_SHOW_TIME / pointOfStart);
-
-    setTimeout(function () {
-      clearInterval(interval);
-
-      block.style.top = '-50%';
-
-      setTimeout(function () {
-        block.remove();
-      }, TRANSITION_DURATION * 1000);
-
-    }, ERROR_SHOW_TIME);
-
-    block.appendChild(timerBlock);
+  var templateSuccessClickHandler = function () {
+    closeSuccessMessage();
   };
 
-  var showMessage = function (message) {
-    var wrapBlockError = document.createElement('section');
-    var titleErrorMessage = document.createElement('h2');
-    var textErrorMessage = document.createElement('p');
+  var documentKeyDownHandler = function (evt) {
+    if (evt.key === window.utils.keyEscape) {
+      closeErrorMessage();
+    }
+  };
 
-    wrapBlockError.setAttribute('style', 'position: absolute; top:-50%; left:calc(50% - 300px); width: 600px; box-shadow: 10px 10px 0 0 rgba(0,0,0,0.7); text-align: center; padding: 30px; background-color: white; color: ' + ERROR_COLOR + '; z-index: 10; transition: all ' + TRANSITION_DURATION + 's;');
-    titleErrorMessage.setAttribute('style', 'text-shadow: none;');
+  var documentSuccessKeyDownHandler = function (evt) {
+    if (evt.key === window.utils.keyEscape) {
+      closeSuccessMessage();
+    }
+  };
 
-    titleErrorMessage.textContent = message.title;
-    textErrorMessage.textContent = message.text;
+  var buttonErrorClickHandler = function () {
+    closeErrorMessage();
+  };
 
-    wrapBlockError.appendChild(titleErrorMessage);
-    wrapBlockError.appendChild(textErrorMessage);
+  var errorMessage = function (message) {
+    titleErrorMessage.textContent = message;
 
-    document.body.appendChild(wrapBlockError);
+    buttonErrorMessage.addEventListener('click', buttonErrorClickHandler);
+    templateError.addEventListener('click', templateErrorClickHandler);
+    document.addEventListener('keydown', documentKeyDownHandler);
 
-    setTimeout(function () {
-      wrapBlockError.style.top = '10px';
-    }, 100);
+    document.querySelector('main').appendChild(templateError);
+  };
 
-    hideTimeoutMessage(wrapBlockError);
+  var successMessage = function () {
+    templateSuccess.addEventListener('click', templateSuccessClickHandler);
+    document.addEventListener('keydown', documentSuccessKeyDownHandler);
+
+    document.querySelector('main').appendChild(templateSuccess);
+
   };
 
   window.message = {
-    showMessage: showMessage,
-    getErrorStatus: getErrorStatus
+    errorMessage: errorMessage,
+    successMessage: successMessage
   };
 
 })();

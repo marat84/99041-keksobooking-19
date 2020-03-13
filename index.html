@@ -25,7 +25,7 @@
         </div>
         <button class="map__pin map__pin--main" style="left: 570px; top: 375px;">
           <img src="img/muffin-red.svg" width="40" height="44" draggable="false" alt="Метка объявления">
-          <svg viewBox="0 0 70 70" width="156" height="156" aria-label="Метка для поиска жилья">
+          <svg  viewBox="0 0 70 70" width="156" height="156" aria-label="Метка для поиска жилья">
             <defs>
               <path d="M35,35m-23,0a23,23 0 1,1 46,0a23,23 0 1,1 -46,0" id="tophalf" />
             </defs>
@@ -84,7 +84,7 @@
     <!-- Форма объявления -->
     <section class="notice">
       <h2 class="notice__title">Ваше объявление</h2>
-      <form class="ad-form ad-form--disabled" method="post" enctype="multipart/form-data" autocomplete="off">
+      <form class="ad-form ad-form--disabled" method="POST" enctype="multipart/form-data" autocomplete="off">
         <fieldset class="ad-form-header">
           <legend class="ad-form-header__title">Ваша фотография (для карты)</legend>
           <div class="ad-form-header__upload">
@@ -249,12 +249,13 @@
   </template>
 
   <script src="js/utils.js"></script>
-  <script src="js/load.js"></script>
+  <script src="js/backend.js"></script>
   <script src="js/message.js"></script>
   <script src="js/pin-move.js"></script>
   <script src="js/pins.js"></script>
   <script src="js/card.js"></script>
-  <script src="js/validation.js"></script>
+  <script src="js/filter.js"></script>
+  <script src="js/form.js"></script>
   <script src="js/start.js"></script>
 </body>
 </html>
