@@ -49,6 +49,12 @@
     setDisabledToFormElements(mainFormElements, true);
     setDisabledToFormElements(mapFilterFormElements, true);
 
+    window.form.resetFormElement();
+    window.form.resetPriceInput();
+    window.filter.resetFilterElement();
+    window.pins.resetPins();
+    window.card.resetCard();
+
     mapPin.addEventListener('mousedown', mapPinMouseDownHandler);
     mapPin.addEventListener('keydown', mapPinKeyDownHandler);
   };

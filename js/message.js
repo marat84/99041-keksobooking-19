@@ -7,11 +7,6 @@
   var templateSuccess = document.querySelector('#success').content.querySelector('.success');
 
   var clearPage = function () {
-    window.form.resetFormElement();
-    window.form.resetPriceInput();
-    window.filter.resetFilterElement();
-    window.pins.resetPins();
-    window.card.resetCard();
     window.start.deActivatedPage();
   };
 

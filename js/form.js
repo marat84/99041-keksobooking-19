@@ -101,11 +101,6 @@
   });
 
   resetButton.addEventListener('click', function () {
-    resetPrice();
-    resetFormElement();
-    window.filter.resetFilterElement();
-    window.pins.resetPins();
-    window.card.resetCard();
     window.start.deActivatedPage();
   });
 
