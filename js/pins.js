@@ -41,11 +41,9 @@
   var renderPins = function (pins) {
     var fragmentPin = document.createDocumentFragment();
 
-    for (var i = 0; i < PIN_AMOUNT; i++) {
-      if (pins[i]) {
-        fragmentPin.appendChild(createPinElement(pins[i]));
-      }
-    }
+    pins.slice(0, PIN_AMOUNT).forEach(function (current) {
+      fragmentPin.appendChild(createPinElement(current));
+    });
 
     mapWithPins.appendChild(fragmentPin);
   };
