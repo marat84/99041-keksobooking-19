@@ -24,7 +24,7 @@
           mainPin.style.left = shiftX + 'px';
         }
 
-        if ((shiftY + window.utils.pinHeightWithTail) >= window.utils.mapMinHeight && shiftY <= window.utils.mapMaxHeight) {
+        if ((shiftY + window.utils.pinHeightWithTail) >= window.utils.mapMinHeight && (shiftY + window.utils.pinHeightWithTail) <= window.utils.mapMaxHeight) {
           mainPin.style.top = shiftY + 'px';
         }
 
