@@ -73,11 +73,7 @@
   var onLoad = function (data) {
     cardData = data;
 
-    window.filter.filterHouseType(data);
-
     window.pins.renderPins(cardData);
-
-    window.filter.filterEventAdd();
 
     setDisabledToFormElements(mainFormElements, false);
     setDisabledToFormElements(mapFilterFormElements, false);
@@ -86,7 +82,12 @@
     mainForm.classList.remove('ad-form--disabled');
   };
 
+  var getOnLoadData = function () {
+    return cardData;
+  };
+
   window.start = {
+    getOnLoadData: getOnLoadData,
     deActivatedPage: deActivatedPage
   };
 })();

@@ -2,40 +2,26 @@
 
 (function () {
   var filterForm = document.querySelector('.map__filters');
-  // var houseType = filterForm.querySelector('#housing-type');
+  var houseType = filterForm.querySelector('#housing-type');
 
   var resetFilterElement = function () {
     filterForm.reset();
-    filterForm.removeEventListener('change', houseTypeChangeHandler);
   };
 
-  var x;
-  var filterHouseType = function (data) {
-    x = data;
+  var filterType = function (current) {
+    return (houseType.value === 'any') ? true : (current.offer.type === houseType.value);
   };
+  filterForm.addEventListener('change', function () {
 
-  var houseTypeChangeHandler = function (evt) {
-    var typeFilter = evt.target;
-    var selectedHouseType = typeFilter.options[typeFilter.selectedIndex].value;
-
-    var array = x.filter(function (current) {
-      return (current.offer.type === selectedHouseType);
-    });
-
-    var resultArray = (selectedHouseType === 'any') ? x : array;
+    var array = window.start.getOnLoadData()
+      .filter(filterType);
 
     window.card.resetCard();
     window.pins.resetPins();
-    window.pins.renderPins(resultArray);
-  };
-
-  var filterEventAdd = function () {
-    filterForm.addEventListener('change', houseTypeChangeHandler);
-  };
+    window.pins.renderPins(array);
+  });
 
   window.filter = {
-    filterHouseType: filterHouseType,
-    filterEventAdd: filterEventAdd,
     resetFilterElement: resetFilterElement
   };
 })();
