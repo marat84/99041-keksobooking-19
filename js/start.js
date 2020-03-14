@@ -77,6 +77,8 @@
 
     window.pins.renderPins(cardData);
 
+    window.filter.filterEventAdd();
+
     setDisabledToFormElements(mainFormElements, false);
     setDisabledToFormElements(mapFilterFormElements, false);
 
