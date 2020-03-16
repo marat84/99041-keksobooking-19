@@ -56,7 +56,6 @@
 
   var filterWifi = function (current) {
     return checkFeatures(houseWifi, current);
-    // return (houseWifi.checked) ? (current.offer.features[0] === houseWifi.value) : true;
   };
   var filterDishwasher = function (current) {
     return checkFeatures(houseDishwasher, current);
@@ -74,8 +73,7 @@
     return checkFeatures(houseConditioner, current);
   };
 
-  filterForm.addEventListener('change', function () {
-
+  var filterFormChangeHandler = function () {
     var array = window.start.getOnLoadData()
       .filter(filterType)
       .filter(filterPrice)
@@ -88,9 +86,14 @@
       .filter(filterElevator)
       .filter(filterConditioner);
 
-    window.card.resetCard();
     window.pins.resetPins();
     window.pins.renderPins(array);
+  };
+
+  filterForm.addEventListener('change', function () {
+    window.card.resetCard();
+
+    window.utils.debounce(filterFormChangeHandler);
   });
 
   window.filter = {
