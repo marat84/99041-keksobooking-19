@@ -37,17 +37,10 @@
     }
   };
 
-  var xhrCreate = function () {
-    var request = new XMLHttpRequest();
-    request.timeout = XHR_TIMEOUT;
-    return request;
-  };
-
-  var load = function (onLoad, onError) {
-    var xhr = xhrCreate();
-
+  var xhrCreate = function (onLoad, onError) {
+    var xhr = new XMLHttpRequest();
+    xhr.timeout = XHR_TIMEOUT;
     xhr.responseType = 'json';
-    xhr.open('GET', XHR_LOAD_URL);
 
     xhr.addEventListener('load', function () {
       if (xhr.status === 200) {
@@ -65,29 +58,21 @@
       onError('Ошибка соединения! Возможно, введён некорректный адрес или у вас отсутсвует интернет соединение');
     });
 
+    return xhr;
+  };
+
+  var load = function (onLoad, onError) {
+    var xhr = xhrCreate(onLoad, onError);
+
+    xhr.open('GET', XHR_LOAD_URL);
+
     xhr.send();
   };
 
   var send = function (data, onLoad, onError) {
-    var xhr = xhrCreate();
+    var xhr = xhrCreate(onLoad, onError);
 
     xhr.open('POST', XHR_SEND_URL);
-
-    xhr.addEventListener('load', function () {
-      if (xhr.status === 200) {
-        onLoad();
-      } else {
-        onError(getErrorStatus(xhr.status));
-      }
-    });
-
-    xhr.addEventListener('timeout', function () {
-      onError('Время на выполнение запроса истекло. Возможно, ваше интерент соединение не стабильно или сервер перегружен');
-    });
-
-    xhr.addEventListener('error', function () {
-      onError('Ошибка соединения! Возможно, введён некорректный адрес или у вас отсутсвует интернет соединение');
-    });
 
     xhr.send(data);
   };
