@@ -6,25 +6,10 @@
   var housePrice = filterForm.querySelector('#housing-price');
   var houseRoom = filterForm.querySelector('#housing-rooms');
   var houseGuest = filterForm.querySelector('#housing-guests');
-  var houseWifi = filterForm.querySelector('#filter-wifi');
-  var houseDishwasher = filterForm.querySelector('#filter-dishwasher');
-  var houseParking = filterForm.querySelector('#filter-parking');
-  var houseWasher = filterForm.querySelector('#filter-washer');
-  var houseElevator = filterForm.querySelector('#filter-elevator');
-  var houseConditioner = filterForm.querySelector('#filter-conditioner');
+  var houseFeatures = filterForm.querySelectorAll('.map__checkbox');
 
   var resetFilterElement = function () {
     filterForm.reset();
-  };
-
-  var checkFeatures = function (feature, current) {
-    if (feature.checked) {
-      return current.offer.features.some(function (currentFeature) {
-        return (currentFeature === feature.value);
-      });
-    } else {
-      return true;
-    }
   };
 
   var filterType = function (current) {
@@ -54,23 +39,18 @@
     return (houseGuest.value === 'any') ? true : (current.offer.guests === +houseGuest.value);
   };
 
-  var filterWifi = function (current) {
-    return checkFeatures(houseWifi, current);
-  };
-  var filterDishwasher = function (current) {
-    return checkFeatures(houseDishwasher, current);
-  };
-  var filterParking = function (current) {
-    return checkFeatures(houseParking, current);
-  };
-  var filterWasher = function (current) {
-    return checkFeatures(houseWasher, current);
-  };
-  var filterElevator = function (current) {
-    return checkFeatures(houseElevator, current);
-  };
-  var filterConditioner = function (current) {
-    return checkFeatures(houseConditioner, current);
+  var filterFeatures = function (current) {
+    var featureChecked = [];
+
+    Array.from(houseFeatures).forEach(function (item) {
+      if (item.checked) {
+        featureChecked.push(item.value);
+      }
+    });
+
+    return featureChecked.every(function (item) {
+      return (current.offer.features.includes(item));
+    });
   };
 
   var filterFormChangeHandler = function () {
@@ -79,12 +59,7 @@
       .filter(filterPrice)
       .filter(filterRoom)
       .filter(filterGuest)
-      .filter(filterWifi)
-      .filter(filterDishwasher)
-      .filter(filterParking)
-      .filter(filterWasher)
-      .filter(filterElevator)
-      .filter(filterConditioner);
+      .filter(filterFeatures);
 
     window.pins.resetPins();
     window.pins.renderPins(array);
