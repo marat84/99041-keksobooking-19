@@ -71,15 +71,12 @@
       .filter(filterGuest)
       .filter(filterFeatures());
 
+    window.card.resetCard();
     window.pins.resetPins();
     window.pins.renderPins(array);
   };
 
-  filterForm.addEventListener('change', function () {
-    window.card.resetCard();
-
-    window.utils.debounce(filterFormChangeHandler);
-  });
+  filterForm.addEventListener('change', window.utils.debounce(filterFormChangeHandler));
 
   window.filter = {
     resetFilterElement: resetFilterElement

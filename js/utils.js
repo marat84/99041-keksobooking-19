@@ -14,14 +14,22 @@
   var MAP_MAX_HEIGHT = 630;
   var HALF_PIN_WIDTH = MAIN_PIN_WIDTH / 2;
   var PIN_HEIGHT_WITH_TAIL = MAIN_PIN_HEIGHT + MAIN_PIN_TAIL_HEIGHT;
-  var TIME_DEBOUNCE = 500;
+  var TIMEOUT_DEBOUNCE = 500;
 
-  var lastChange;
   var debounce = function (cb) {
-    if (lastChange) {
+    var lastChange;
+
+    var createDebounce = function () {
+      var context = createDebounce;
+
       clearTimeout(lastChange);
-    }
-    lastChange = setTimeout(cb, TIME_DEBOUNCE);
+
+      lastChange = setTimeout(function () {
+        cb.apply(context);
+      }, TIMEOUT_DEBOUNCE);
+    };
+
+    return createDebounce;
   };
 
   var getRandomValue = function (values) {
