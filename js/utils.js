@@ -11,13 +11,12 @@
   var SMALL_PIN_WIDTH = 50;
   var HALF_PIN_WIDTH = MAIN_PIN_WIDTH / 2;
   var PIN_HEIGHT_WITH_TAIL = MAIN_PIN_HEIGHT + MAIN_PIN_TAIL_HEIGHT;
-  var TIME_DEBOUNCE = 500;
+  var TIMEOUT_DEBOUNCE = 500;
   var Map = {
     WIDTH: 1200,
     MIN_HEIGHT: 130,
     MAX_HEIGHT: 630
   };
-  var TIMEOUT_DEBOUNCE = 500;
 
   var debounce = function (cb) {
     var lastChange;
