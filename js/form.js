@@ -22,8 +22,8 @@
     var selectArray = RoomCapacity[
       selectRoomAmout.options[
         selectRoomAmout.selectedIndex
-        ].value
-      ];
+      ].value
+    ];
     var selectItems = Array.from(selectCapacity.options);
 
     selectItems.forEach(function (current) {
@@ -64,8 +64,8 @@
     var price = TypePrice[
       placeTypeSelect.options[
         placeTypeSelect.selectedIndex
-        ].value
-      ];
+      ].value
+    ];
 
     priceTypeInput.placeholder = price;
     priceTypeInput.min = price;
@@ -104,6 +104,7 @@
     window.start.deActivatedPage();
   });
 
+  var IMAGE_EXTENSIONS = ['jpg', 'png', 'gif'];
   var imageUserInput = mainForm.querySelector('#avatar');
   var photoUserInput = mainForm.querySelector('#images');
   var avatarDefaultImage = mainForm.querySelector('.ad-form-header__preview img');
@@ -119,15 +120,24 @@
     mainForm.querySelector('.ad-form-header__preview').appendChild(avatarDefaultImage);
   };
 
+  var checkFileName = function (file) {
+    var fileName = file.name.toLowerCase();
+
+    return IMAGE_EXTENSIONS.some(function (current) {
+      return (fileName.endsWith(current));
+    });
+  };
+
   var uploadImage = function (file) {
-    if (file) {
+    if (file && checkFileName(file)) {
+      avatarDefaultImage.remove();
+
       window.fileUpload.setUploadedImage(file, imageBlock);
     }
   };
 
   imageUserInput.addEventListener('change', function (evt) {
     imageBlock = mainForm.querySelector('.ad-form-header__preview');
-    avatarDefaultImage.remove();
 
     uploadImage(evt.target.files[0]);
   });
