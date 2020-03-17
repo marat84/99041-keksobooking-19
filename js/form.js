@@ -22,8 +22,8 @@
     var selectArray = RoomCapacity[
       selectRoomAmout.options[
         selectRoomAmout.selectedIndex
-      ].value
-    ];
+        ].value
+      ];
     var selectItems = Array.from(selectCapacity.options);
 
     selectItems.forEach(function (current) {
@@ -64,8 +64,8 @@
     var price = TypePrice[
       placeTypeSelect.options[
         placeTypeSelect.selectedIndex
-      ].value
-    ];
+        ].value
+      ];
 
     priceTypeInput.placeholder = price;
     priceTypeInput.min = price;
@@ -104,8 +104,43 @@
     window.start.deActivatedPage();
   });
 
+  var imageUserInput = mainForm.querySelector('#avatar');
+  var photoUserInput = mainForm.querySelector('#images');
+  var avatarDefaultImage = mainForm.querySelector('.ad-form-header__preview img');
+  var imageBlock;
+
+  var resetAvatarImage = function () {
+    var uploadedImages = mainForm.querySelectorAll('.' + window.fileUpload.uploadedImageClass);
+
+    Array.from(uploadedImages).forEach(function (current) {
+      window.utils.removeElementIfExist(current);
+    });
+
+    mainForm.querySelector('.ad-form-header__preview').appendChild(avatarDefaultImage);
+  };
+
+  var uploadImage = function (file) {
+    if (file) {
+      window.fileUpload.setUploadedImage(file, imageBlock);
+    }
+  };
+
+  imageUserInput.addEventListener('change', function (evt) {
+    imageBlock = mainForm.querySelector('.ad-form-header__preview');
+    avatarDefaultImage.remove();
+
+    uploadImage(evt.target.files[0]);
+  });
+
+  photoUserInput.addEventListener('change', function (evt) {
+    imageBlock = document.querySelector('.ad-form__photo');
+
+    uploadImage(evt.target.files[0]);
+  });
+
   window.form = {
     resetFormElement: resetFormElement,
+    resetAvatarImage: resetAvatarImage,
     resetPriceInput: resetPrice
   };
 })();

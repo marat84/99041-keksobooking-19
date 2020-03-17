@@ -50,6 +50,7 @@
     setDisabledToFormElements(mapFilterFormElements, true);
 
     window.form.resetFormElement();
+    window.form.resetAvatarImage();
     window.form.resetPriceInput();
     window.filter.resetFilterElement();
     window.pins.resetPins();

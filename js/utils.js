@@ -42,6 +42,12 @@
     };
   };
 
+  var removeElementIfExist = function (element) {
+    if (element) {
+      element.remove();
+    }
+  };
+
   window.utils = {
     keyEnter: ENTER_KEY,
     keyEscape: ESCAPE_KEY,
@@ -54,6 +60,7 @@
     halfPinWidth: HALF_PIN_WIDTH,
     pinHeightWithTail: PIN_HEIGHT_WITH_TAIL,
     Map: Map,
+    removeElementIfExist: removeElementIfExist,
     getPinPosition: getPinPosition,
     debounce: debounce
   };
