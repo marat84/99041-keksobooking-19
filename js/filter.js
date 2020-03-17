@@ -6,7 +6,7 @@
   var housePrice = filterForm.querySelector('#housing-price');
   var houseRoom = filterForm.querySelector('#housing-rooms');
   var houseGuest = filterForm.querySelector('#housing-guests');
-  var houseFeatures = filterForm.querySelectorAll('.map__checkbox');
+  // var houseFeatures = filterForm.querySelectorAll('.map__checkbox');
 
   var resetFilterElement = function () {
     filterForm.reset();
@@ -39,18 +39,28 @@
     return (houseGuest.value === 'any') ? true : (current.offer.guests === +houseGuest.value);
   };
 
-  var filterFeatures = function (current) {
-    var featureChecked = [];
+  // var filterFeatures = function (current) {
+  //   var featureChecked = [];
+  //
+  //   Array.from(houseFeatures).forEach(function (item) {
+  //     if (item.checked) {
+  //       featureChecked.push(item.value);
+  //     }
+  //   });
+  //
+  //   return featureChecked.every(function (item) {
+  //     return (current.offer.features.includes(item));
+  //   });
+  // };
 
-    Array.from(houseFeatures).forEach(function (item) {
-      if (item.checked) {
-        featureChecked.push(item.value);
-      }
-    });
+  var filterFeatures = function () {
+    var checkedFeatures = Array.from(filterForm.querySelectorAll('.map__checkbox:checked'));
 
-    return featureChecked.every(function (item) {
-      return (current.offer.features.includes(item));
-    });
+    return function (it) {
+      return checkedFeatures.every(function (feature) {
+        return it.offer.features.includes(feature.value);
+      });
+    };
   };
 
   var filterFormChangeHandler = function () {
@@ -59,7 +69,7 @@
       .filter(filterPrice)
       .filter(filterRoom)
       .filter(filterGuest)
-      .filter(filterFeatures);
+      .filter(filterFeatures());
 
     window.pins.resetPins();
     window.pins.renderPins(array);
