@@ -41,8 +41,6 @@
       y: Math.round(mapPinPosition.y - (window.utils.mainPinHeight / 2))
     };
 
-    inputAddress.value = pinPosition.x + ', ' + pinPosition.y;
-
     map.classList.add('map--faded');
     mainForm.classList.add('ad-form--disabled');
 
@@ -55,6 +53,8 @@
     window.filter.resetFilterElement();
     window.pins.resetPins();
     window.card.resetCard();
+
+    inputAddress.value = pinPosition.x + ', ' + pinPosition.y;
 
     mapPin.addEventListener('mousedown', mapPinMouseDownHandler);
     mapPin.addEventListener('keydown', mapPinKeyDownHandler);
