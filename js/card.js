@@ -13,7 +13,7 @@
   };
 
   var closeCard = function (card) {
-    card.classList.add('hidden');
+    card.remove();
 
     window.pins.removePinActiveClass();
 
@@ -66,7 +66,6 @@
     cardClone = cardTemplate.cloneNode(true);
 
     var popupCardClose = cardClone.querySelector('.popup__close');
-    cardClone.classList.remove('hidden');
 
     document.addEventListener('keydown', documentKeyDownHandler);
 
@@ -105,9 +104,7 @@
   };
 
   var removeCard = function () {
-    if (cardClone) {
-      cardClone.remove();
-    }
+    window.utils.removeElementIfExist(cardClone);
   };
 
   var renderCard = function (cards) {

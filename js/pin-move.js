@@ -20,11 +20,11 @@
         var shiftX = mainPin.offsetLeft - pinMoveCoordinates.x;
         var shiftY = mainPin.offsetTop - pinMoveCoordinates.y;
 
-        if (shiftX >= (window.utils.halfPinWidth * -1) && shiftX <= (window.utils.mapWidth - window.utils.halfPinWidth)) {
+        if (shiftX >= (window.utils.halfPinWidth * -1) && shiftX <= (window.utils.Map.WIDTH - window.utils.halfPinWidth)) {
           mainPin.style.left = shiftX + 'px';
         }
 
-        if ((shiftY + window.utils.pinHeightWithTail) >= window.utils.mapMinHeight && (shiftY + window.utils.pinHeightWithTail) <= window.utils.mapMaxHeight) {
+        if ((shiftY + window.utils.pinHeightWithTail) >= window.utils.Map.MIN_HEIGHT && (shiftY + window.utils.pinHeightWithTail) <= window.utils.Map.MAX_HEIGHT) {
           mainPin.style.top = shiftY + 'px';
         }
 

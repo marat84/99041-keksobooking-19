@@ -2,15 +2,15 @@
 
 (function () {
   var mainForm = document.querySelector('.ad-form');
-  var selectRoomAmout = mainForm.querySelector('#room_number');
+  var selectRoomAmount = mainForm.querySelector('#room_number');
   var selectCapacity = mainForm.querySelector('#capacity');
   var resetButton = mainForm.querySelector('.ad-form__reset');
 
   var resetFormElement = function () {
     mainForm.reset();
   };
-  // Валидация. Привязка количества комнат к числу гостей
 
+  // Валидация. Привязка количества комнат к числу гостей
   var RoomCapacity = {
     '1': ['1'],
     '2': ['1', '2'],
@@ -19,11 +19,7 @@
   };
 
   var selectChangeHandler = function () {
-    var selectArray = RoomCapacity[
-      selectRoomAmout.options[
-        selectRoomAmout.selectedIndex
-      ].value
-    ];
+    var selectArray = RoomCapacity[selectRoomAmount.value];
     var selectItems = Array.from(selectCapacity.options);
 
     selectItems.forEach(function (current) {
@@ -40,7 +36,7 @@
     });
   };
 
-  selectRoomAmout.addEventListener('change', selectChangeHandler);
+  selectRoomAmount.addEventListener('change', selectChangeHandler);
 
   // Валидация. Привязка типа жилья к цене
   var TypePrice = {
@@ -104,8 +100,53 @@
     window.start.deActivatedPage();
   });
 
+  var IMAGE_EXTENSIONS = ['jpg', 'png', 'gif'];
+  var imageUserInput = mainForm.querySelector('#avatar');
+  var photoUserInput = mainForm.querySelector('#images');
+  var avatarDefaultImage = mainForm.querySelector('.ad-form-header__preview img');
+  var imageBlock;
+
+  var resetAvatarImage = function () {
+    var uploadedImages = mainForm.querySelectorAll('.' + window.fileUpload.uploadedImageClass);
+
+    Array.from(uploadedImages).forEach(function (current) {
+      window.utils.removeElementIfExist(current);
+    });
+
+    mainForm.querySelector('.ad-form-header__preview').appendChild(avatarDefaultImage);
+  };
+
+  var checkFileName = function (file) {
+    var fileName = file.name.toLowerCase();
+
+    return IMAGE_EXTENSIONS.some(function (current) {
+      return (fileName.endsWith(current));
+    });
+  };
+
+  var uploadImage = function (file) {
+    if (file && checkFileName(file)) {
+      avatarDefaultImage.remove();
+
+      window.fileUpload.setUploadedImage(file, imageBlock);
+    }
+  };
+
+  imageUserInput.addEventListener('change', function (evt) {
+    imageBlock = mainForm.querySelector('.ad-form-header__preview');
+
+    uploadImage(evt.target.files[0]);
+  });
+
+  photoUserInput.addEventListener('change', function (evt) {
+    imageBlock = document.querySelector('.ad-form__photo');
+
+    uploadImage(evt.target.files[0]);
+  });
+
   window.form = {
     resetFormElement: resetFormElement,
+    resetAvatarImage: resetAvatarImage,
     resetPriceInput: resetPrice
   };
 })();
