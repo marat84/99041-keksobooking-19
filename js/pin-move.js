@@ -12,6 +12,10 @@
         y: evt.clientY
       };
 
+      var calculatePinPosition = function () {
+        return (window.utils.getPinPosition(mainPin).x + window.utils.halfPinWidth) + ', ' + (window.utils.getPinPosition(mainPin).y + window.utils.pinHeightWithTail);
+      };
+
       var mapPinMouseMoveHandler = function (mouseMove) {
         var pinMoveCoordinates = {
           x: pinCoordinates.x - mouseMove.clientX,
@@ -32,11 +36,12 @@
           x: mouseMove.clientX,
           y: mouseMove.clientY
         };
+
+        inputAddress.value = calculatePinPosition();
       };
 
       var windowMouseUpHandler = function () {
-
-        inputAddress.value = (window.utils.getPinPosition(mainPin).x + window.utils.halfPinWidth) + ', ' + (window.utils.getPinPosition(mainPin).y + window.utils.pinHeightWithTail);
+        inputAddress.value = calculatePinPosition();
 
         mapPin.removeEventListener('mousemove', mapPinMouseMoveHandler);
         window.removeEventListener('mouseup', windowMouseUpHandler);
