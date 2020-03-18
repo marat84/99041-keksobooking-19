@@ -53,7 +53,6 @@
     keyMouse: MOUSE_KEY,
     smallPinHeight: SMALL_PIN_HEIGHT,
     smallPinWidth: SMALL_PIN_WIDTH,
-    mainPinTailHeight: MAIN_PIN_TAIL_HEIGHT,
     mainPinWidth: MAIN_PIN_WIDTH,
     mainPinHeight: MAIN_PIN_HEIGHT,
     halfPinWidth: HALF_PIN_WIDTH,
