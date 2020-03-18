@@ -8,7 +8,7 @@
   var houseRoom = filterForm.querySelector('#housing-rooms');
   var houseGuest = filterForm.querySelector('#housing-guests');
 
-  var resetFilterElement = function () {
+  var resetFilterForm = function () {
     filterForm.reset();
   };
 
@@ -61,14 +61,14 @@
     var amountData = array.length;
     var arrayAmount = (amountData < data.length) ? MAX_PINS_AMOUNT : amountData;
 
-    window.card.resetCard();
-    window.pins.resetPins();
-    window.pins.renderPins(array.slice(0, arrayAmount));
+    window.card.reset();
+    window.pins.reset();
+    window.pins.render(array.slice(0, arrayAmount));
   };
 
   filterForm.addEventListener('change', window.utils.debounce(filterFormChangeHandler));
 
   window.filter = {
-    resetFilterElement: resetFilterElement
+    resetForm: resetFilterForm
   };
 })();

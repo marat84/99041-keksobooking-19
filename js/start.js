@@ -47,12 +47,12 @@
     setDisabledToFormElements(mainFormElements, true);
     setDisabledToFormElements(mapFilterFormElements, true);
 
-    window.form.resetFormElement();
+    window.form.resetElement();
     window.form.resetAvatarImage();
     window.form.resetPriceInput();
-    window.filter.resetFilterElement();
-    window.pins.resetPins();
-    window.card.resetCard();
+    window.filter.resetForm();
+    window.pins.reset();
+    window.card.reset();
 
     inputAddress.value = pinPosition.x + ', ' + pinPosition.y;
 
@@ -65,7 +65,7 @@
   var cardData = [];
   var activatedPage = function () {
 
-    window.backend.load(onLoad, window.message.errorMessage);
+    window.backend.load(onLoad, window.message.error);
 
     mapPin.removeEventListener('mousedown', mapPinMouseDownHandler);
     mapPin.removeEventListener('keydown', mapPinKeyDownHandler);
@@ -74,7 +74,7 @@
   var onLoad = function (data) {
     cardData = data;
 
-    window.pins.renderPins(cardData);
+    window.pins.render(cardData);
 
     setDisabledToFormElements(mainFormElements, false);
     setDisabledToFormElements(mapFilterFormElements, false);

@@ -93,7 +93,7 @@
 
     var data = new FormData(mainForm);
 
-    window.backend.send(data, window.message.successMessage, window.message.errorMessage);
+    window.backend.send(data, window.message.success, window.message.error);
   });
 
   resetButton.addEventListener('click', function () {
@@ -107,7 +107,7 @@
   var imageBlock;
 
   var resetAvatarImage = function () {
-    var uploadedImages = mainForm.querySelectorAll('.' + window.fileUpload.uploadedImageClass);
+    var uploadedImages = mainForm.querySelectorAll('.' + window.fileUpload.imageClass);
 
     Array.from(uploadedImages).forEach(function (current) {
       window.utils.removeElementIfExist(current);
@@ -145,7 +145,7 @@
   });
 
   window.form = {
-    resetFormElement: resetFormElement,
+    resetElement: resetFormElement,
     resetAvatarImage: resetAvatarImage,
     resetPriceInput: resetPrice
   };

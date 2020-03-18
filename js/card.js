@@ -15,7 +15,7 @@
   var closeCard = function (card) {
     card.remove();
 
-    window.pins.removePinActiveClass();
+    window.pins.removeActiveClass();
 
     document.removeEventListener('keydown', documentKeyDownHandler);
   };
@@ -114,7 +114,7 @@
   };
 
   window.card = {
-    renderCard: renderCard,
-    resetCard: removeCard
+    render: renderCard,
+    reset: removeCard
   };
 })();

@@ -31,7 +31,7 @@
 
       clonePin.classList.add('map__pin--active');
 
-      window.card.renderCard(pin);
+      window.card.render(pin);
     });
 
     return clonePin;
@@ -50,8 +50,8 @@
   };
 
   window.pins = {
-    removePinActiveClass: removePinActiveClass,
-    resetPins: removePins,
-    renderPins: renderPins
+    removeActiveClass: removePinActiveClass,
+    reset: removePins,
+    render: renderPins
   };
 })();
