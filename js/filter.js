@@ -6,7 +6,6 @@
   var housePrice = filterForm.querySelector('#housing-price');
   var houseRoom = filterForm.querySelector('#housing-rooms');
   var houseGuest = filterForm.querySelector('#housing-guests');
-  // var houseFeatures = filterForm.querySelectorAll('.map__checkbox');
 
   var resetFilterElement = function () {
     filterForm.reset();
@@ -38,20 +37,6 @@
   var filterGuest = function (current) {
     return (houseGuest.value === 'any') ? true : (current.offer.guests === +houseGuest.value);
   };
-
-  // var filterFeatures = function (current) {
-  //   var featureChecked = [];
-  //
-  //   Array.from(houseFeatures).forEach(function (item) {
-  //     if (item.checked) {
-  //       featureChecked.push(item.value);
-  //     }
-  //   });
-  //
-  //   return featureChecked.every(function (item) {
-  //     return (current.offer.features.includes(item));
-  //   });
-  // };
 
   var filterFeatures = function () {
     var checkedFeatures = Array.from(filterForm.querySelectorAll('.map__checkbox:checked'));
