@@ -14,6 +14,23 @@
   var MAP_MAX_HEIGHT = 630;
   var HALF_PIN_WIDTH = MAIN_PIN_WIDTH / 2;
   var PIN_HEIGHT_WITH_TAIL = MAIN_PIN_HEIGHT + MAIN_PIN_TAIL_HEIGHT;
+  var TIMEOUT_DEBOUNCE = 500;
+
+  var debounce = function (cb) {
+    var lastChange;
+
+    var createDebounce = function () {
+      var context = createDebounce;
+
+      clearTimeout(lastChange);
+
+      lastChange = setTimeout(function () {
+        cb.apply(context);
+      }, TIMEOUT_DEBOUNCE);
+    };
+
+    return createDebounce;
+  };
 
   var getRandomValue = function (values) {
     return values[Math.floor(Math.random() * values.length)];
@@ -51,6 +68,7 @@
     getRandomValue: getRandomValue,
     getRandomNumber: getRandomNumber,
     getRandomSlicedArray: getRandomSlicedArray,
-    getPinPosition: getPinPosition
+    getPinPosition: getPinPosition,
+    debounce: debounce
   };
 })();
