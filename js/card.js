@@ -104,9 +104,7 @@
   };
 
   var removeCard = function () {
-    if (cardClone) {
-      cardClone.remove();
-    }
+    window.utils.removeElementIfExist(cardClone);
   };
 
   var renderCard = function (cards) {
