@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var STATUS_SUCCESS = 200;
   var XHR_TIMEOUT = 10000;
   var XHR_LOAD_URL = 'https://js.dump.academy/keksobooking/data';
   var XHR_SEND_URL = 'https://js.dump.academy/keksobooking';
@@ -43,7 +44,7 @@
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
-      if (xhr.status === 200) {
+      if (xhr.status === STATUS_SUCCESS) {
         onLoad(xhr.response);
       } else {
         onError(getErrorStatus(xhr.status));
