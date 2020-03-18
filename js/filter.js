@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var MAX_PINS_AMOUNT = 5;
   var filterForm = document.querySelector('.map__filters');
   var houseType = filterForm.querySelector('#housing-type');
   var housePrice = filterForm.querySelector('#housing-price');
@@ -41,24 +42,28 @@
   var filterFeatures = function () {
     var checkedFeatures = Array.from(filterForm.querySelectorAll('.map__checkbox:checked'));
 
-    return function (it) {
+    return function (current) {
       return checkedFeatures.every(function (feature) {
-        return it.offer.features.includes(feature.value);
+        return current.offer.features.includes(feature.value);
       });
     };
   };
 
   var filterFormChangeHandler = function () {
-    var array = window.start.getOnLoadData()
+    var data = window.start.getOnLoadData();
+    var array = data
       .filter(filterType)
       .filter(filterPrice)
       .filter(filterRoom)
       .filter(filterGuest)
       .filter(filterFeatures());
 
+    var amountData = array.length;
+    var arrayAmount = (amountData < data.length) ? MAX_PINS_AMOUNT : amountData;
+
     window.card.resetCard();
     window.pins.resetPins();
-    window.pins.renderPins(array);
+    window.pins.renderPins(array.slice(0, arrayAmount));
   };
 
   filterForm.addEventListener('change', window.utils.debounce(filterFormChangeHandler));
