@@ -21,17 +21,15 @@
   var debounce = function (cb) {
     var lastChange;
 
-    var createDebounce = function () {
-      var context = createDebounce;
+    return function () {
+      var argument = arguments;
 
       clearTimeout(lastChange);
 
       lastChange = setTimeout(function () {
-        cb.apply(context);
+        cb.apply(null, argument);
       }, TIMEOUT_DEBOUNCE);
     };
-
-    return createDebounce;
   };
 
   var getPinPosition = function (pin) {
