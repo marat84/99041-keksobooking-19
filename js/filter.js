@@ -1,12 +1,12 @@
 'use strict';
 
 (function () {
-  var MAX_PINS_AMOUNT = 5;
+  // var MAX_PINS_AMOUNT = 5;
   var filterForm = document.querySelector('.map__filters');
   var houseType = filterForm.querySelector('#housing-type');
-  var housePrice = filterForm.querySelector('#housing-price');
+  // var housePrice = filterForm.querySelector('#housing-price');
   var houseRoom = filterForm.querySelector('#housing-rooms');
-  var houseGuest = filterForm.querySelector('#housing-guests');
+  // var houseGuest = filterForm.querySelector('#housing-guests');
 
   var resetFilterForm = function () {
     filterForm.reset();
@@ -28,20 +28,20 @@
     return result;
   };
 
-  var filterPrice = function (current) {
-    var price = current.offer.price;
-
-    switch (housePrice.value) {
-      case 'middle':
-        return (price > 10000 && price < 50000);
-      case 'low':
-        return (price < 10000);
-      case 'high':
-        return (price > 50000);
-      default:
-        return true;
-    }
-  };
+  // var filterPrice = function (current) {
+  //   var price = current.offer.price;
+  //
+  //   switch (housePrice.value) {
+  //     case 'middle':
+  //       return (price > 10000 && price < 50000);
+  //     case 'low':
+  //       return (price < 10000);
+  //     case 'high':
+  //       return (price > 50000);
+  //     default:
+  //       return true;
+  //   }
+  // };
 
   var filterRoom = function (current) {
     var result = [];
@@ -59,9 +59,9 @@
     return result;
   };
 
-  var filterGuest = function (current) {
-    return (houseGuest.value === 'any') ? true : (current.offer.guests === +houseGuest.value);
-  };
+  // var filterGuest = function (current) {
+  //   return (houseGuest.value === 'any') ? true : (current.offer.guests === +houseGuest.value);
+  // };
 
   var filterFeatures = function (current) {
     var checkedFeatures = Array.from(filterForm.querySelectorAll('.map__checkbox:checked'));
@@ -96,7 +96,7 @@
     var arrayType = (houseType.value !== 'any') ? filterType(data) : data;
     var arrayRoom = (houseRoom.value !== 'any') ? filterRoom(data) : data;
 
-    console.log(arrayType, arrayRoom);
+    console.log(arrayType, arrayRoom, filterFeatures(data));
 
     // var array;
     // if (houseType.value !== 'any') {
