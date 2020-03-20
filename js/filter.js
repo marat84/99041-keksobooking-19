@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  // var MAX_PINS_AMOUNT = 5;
+  var MAX_PINS_AMOUNT = 5;
   var filterForm = document.querySelector('.map__filters');
   var houseType = filterForm.querySelector('#housing-type');
   var housePrice = filterForm.querySelector('#housing-price');
@@ -21,7 +21,7 @@
 
     switch (housePrice.value) {
       case 'middle':
-        return (price > 10000 && price < 50000);
+        return (price >= 10000 && price <= 50000);
       case 'low':
         return (price < 10000);
       case 'high':
@@ -59,6 +59,8 @@
 
       if (!filterType(item)) {
         continue;
+      } else if (!filterPrice(item)) {
+        continue;
       } else if (!filterRoom(item)) {
         continue;
       } else if (!filterGuest(item)) {
@@ -67,31 +69,22 @@
         continue;
       }
 
-      filtered.push(data[i]);
-      if (filtered.length >= 5) {
+      filtered.push(item);
+      if (filtered.length >= MAX_PINS_AMOUNT) {
         break;
       }
 
     }
 
-    // var array = data
-    //   .filter(filterType)
-    //   .filter(filterPrice)
-    //   .filter(filterRoom)
-    //   .filter(filterGuest)
-    //   .filter(filterFeatures());
-
-    // var amountData = array.length;
-    // var arrayAmount = (amountData < data.length) ? MAX_PINS_AMOUNT : amountData;
-
-    window.card.resetCard();
-    window.pins.resetPins();
-    window.pins.renderPins(filtered);
+    window.card.reset();
+    window.pins.reset();
+    window.pins.render(filtered);
   };
 
   filterForm.addEventListener('change', window.utils.debounce(filterFormChangeHandler));
 
   window.filter = {
-    resetForm: resetFilterForm
+    resetForm: resetFilterForm,
+    apply: filterFormChangeHandler
   };
 })();

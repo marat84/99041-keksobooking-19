@@ -74,7 +74,7 @@
   var onLoad = function (data) {
     cardData = data;
 
-    window.pins.render(cardData);
+    window.filter.apply();
 
     setDisabledToFormElements(mainFormElements, false);
     setDisabledToFormElements(mapFilterFormElements, false);
