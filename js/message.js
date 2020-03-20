@@ -75,8 +75,8 @@
   };
 
   window.message = {
-    errorMessage: errorMessage,
-    successMessage: successMessage
+    error: errorMessage,
+    success: successMessage
   };
 
 })();

@@ -22,7 +22,7 @@
   };
 
   window.fileUpload = {
-    uploadedImageClass: UPLOADED_IMAGE_CLASS,
+    imageClass: UPLOADED_IMAGE_CLASS,
     setUploadedImage: setUploadedImage
   };
 })();

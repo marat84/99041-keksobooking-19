@@ -8,7 +8,7 @@
   var houseRoom = filterForm.querySelector('#housing-rooms');
   var houseGuest = filterForm.querySelector('#housing-guests');
 
-  var resetFilterElement = function () {
+  var resetFilterForm = function () {
     filterForm.reset();
   };
 
@@ -21,7 +21,7 @@
 
     switch (housePrice.value) {
       case 'middle':
-        return (price > 10000 && price < 50000);
+        return (price >= 10000 && price <= 50000);
       case 'low':
         return (price < 10000);
       case 'high':
@@ -51,24 +51,40 @@
 
   var filterFormChangeHandler = function () {
     var data = window.start.getOnLoadData();
-    var array = data
-      .filter(filterType)
-      .filter(filterPrice)
-      .filter(filterRoom)
-      .filter(filterGuest)
-      .filter(filterFeatures());
+    var filtered = [];
+    var filteredByFeatures = filterFeatures();
 
-    var amountData = array.length;
-    var arrayAmount = (amountData < data.length) ? MAX_PINS_AMOUNT : amountData;
+    for (var i = 0; i < data.length; i++) {
+      var item = data[i];
 
-    window.card.resetCard();
-    window.pins.resetPins();
-    window.pins.renderPins(array.slice(0, arrayAmount));
+      if (!filterType(item)) {
+        continue;
+      } else if (!filterPrice(item)) {
+        continue;
+      } else if (!filterRoom(item)) {
+        continue;
+      } else if (!filterGuest(item)) {
+        continue;
+      } else if (!filteredByFeatures(item)) {
+        continue;
+      }
+
+      filtered.push(item);
+      if (filtered.length >= MAX_PINS_AMOUNT) {
+        break;
+      }
+
+    }
+
+    window.card.reset();
+    window.pins.reset();
+    window.pins.render(filtered);
   };
 
   filterForm.addEventListener('change', window.utils.debounce(filterFormChangeHandler));
 
   window.filter = {
-    resetFilterElement: resetFilterElement
+    resetForm: resetFilterForm,
+    apply: filterFormChangeHandler
   };
 })();
